@@ -1,5 +1,11 @@
 import Test from "@/components/Test";
+import { getCourses } from "@/queries/courses";
 
-export default function Home() {
+export default async function Home() {
+  const courses = await getCourses();
+  console.log("🚀 ~ Home ~ courses:", courses);
+  console.log(courses[0]?.instructor?.socialMedia);
+  console.log(courses[0]?.testimonials);
+  console.log(courses[0]?.modules);
   return <Test />;
 }
