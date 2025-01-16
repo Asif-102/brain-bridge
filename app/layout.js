@@ -11,7 +11,7 @@ const poppins = Poppins({
 });
 
 export const metadata = {
-  title: "BrainBridge - World's Best Learning Platform",
+  title: "DevsRocket - Developers on Rocket",
   description: "Explore || Learn || Build || Share",
 };
 
