@@ -43,7 +43,7 @@ The DevsRocket Application is a Learning and Development Platform. This platform
 
 ---
 
-## Feature Requirements
+## Features
 
 ### 1. User Roles and Registration
 
