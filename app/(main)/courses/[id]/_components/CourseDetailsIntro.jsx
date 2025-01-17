@@ -4,7 +4,7 @@ import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-export default function CourseDetailsIntro() {
+export default function CourseDetailsIntro({ title, subtitle, thumbnail }) {
   return (
     <div className="overflow-x-hidden  grainy">
       <section className="pt-12  sm:pt-16">
@@ -12,12 +12,12 @@ export default function CourseDetailsIntro() {
           <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div className="max-w-2xl mx-auto text-center">
               <h1 className="px-6 text-lg text-gray-600 font-inter">
-                Master React JS & Next JS
+                {subtitle}
               </h1>
               <p className="mt-5 text-4xl font-bold leading-tight text-gray-900 sm:leading-tight sm:text-5xl lg:text-6xl lg:leading-tight font-pj">
                 <span className="relative inline-flex sm:inline">
                   <span className="bg-gradient-to-r from-[#44BCFF] via-[#FF44EC] to-[#FF675E] blur-lg filter opacity-30 w-full h-full absolute inset-0"></span>
-                  <span className="relative">Reactive Accelerator </span>
+                  <span className="relative">{title}</span>
                 </span>
               </p>
 
@@ -46,8 +46,8 @@ export default function CourseDetailsIntro() {
                     className="w-full rounded-lg"
                     width={768}
                     height={463}
-                    src="/assets/images/courses/course_1.png"
-                    alt=""
+                    src={`/assets/images/courses/${thumbnail}`}
+                    alt={title}
                   />
                 </div>
               </div>
