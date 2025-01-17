@@ -15,6 +15,7 @@ const CoursesPage = async () => {
       id="courses"
       className="container space-y-6   dark:bg-transparent py-6"
     >
+      <p className="font-hindSiliguri">এটি একটি বাংলা বাক্য।</p>
       {/* <h2 className="text-xl md:text-2xl font-medium">All Courses</h2> */}
       {/* header */}
       <div className="flex items-baseline justify-between  border-gray-200 border-b pb-6 flex-col gap-4 lg:flex-row">

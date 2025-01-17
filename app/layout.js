@@ -1,6 +1,6 @@
 import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
-import { Inter, Poppins } from "next/font/google";
+import { Hind_Siliguri, Inter, Poppins } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -8,6 +8,12 @@ const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "500", "700"],
   variable: "--font-poppins",
+});
+
+const hindSiliguri = Hind_Siliguri({
+  subsets: ["latin", "bengali"],
+  weight: ["400", "500", "700"],
+  variable: "--font-hind-siliguri",
 });
 
 export const metadata = {
@@ -18,7 +24,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={cn(inter.className, poppins.variable)}>
+      <body
+        className={cn(inter.className, poppins.variable, hindSiliguri.variable)}
+      >
         {children}
         <Toaster richColors position="top-center" />
       </body>
