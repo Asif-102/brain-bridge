@@ -43,6 +43,12 @@ The DevsRocket Application is a Learning and Development Platform. This platform
 
 ---
 
+## DB_Diagram
+
+![alt text](/public/db_diagram.png)
+
+---
+
 ## Features
 
 ### 1. User Roles and Registration
