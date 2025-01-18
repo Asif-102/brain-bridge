@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import { SectionTitle } from "@/components/section-title";
 import { StarRating } from "@/components/star-rating";
 import {
@@ -8,6 +7,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import Image from "next/image";
 
 export default function Testimonials({ testimonials }) {
   return (
@@ -31,11 +31,11 @@ export default function Testimonials({ testimonials }) {
                 <div className="sm:break-inside-avoid">
                   <blockquote className="rounded-lg bg-gray-50 p-6  sm:p-8 shadow-sm">
                     <div className="flex items-center gap-4">
-                      <img
+                      <Image
                         alt={testimonial?.user?.first_name}
                         src={testimonial?.user?.profile_picture}
-                        width="56"
-                        height="56"
+                        width={56}
+                        height={56}
                         className="size-14 rounded-full object-cover"
                       />
                       <div>
