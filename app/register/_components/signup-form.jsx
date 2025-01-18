@@ -65,6 +65,7 @@ export function SignupForm({ role }) {
       // response.status === 201 && router.push("/login");
     } catch (e) {
       console.log(e.message);
+      setError(e.message);
     } finally {
       setLoader(false);
     }
