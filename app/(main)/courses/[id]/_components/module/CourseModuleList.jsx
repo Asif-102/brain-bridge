@@ -25,10 +25,7 @@ const CourseModuleList = ({ module }) => {
         <div className="space-y-3">
           {module?.lessonIds &&
             module?.lessonIds.map((lessonId) => (
-              <CourseLessonList
-                key={lessonId.toString()}
-                lessonId={lessonId.toString()}
-              />
+              <CourseLessonList key={lessonId} lessonId={lessonId} />
             ))}
         </div>
       </AccordionContent>
