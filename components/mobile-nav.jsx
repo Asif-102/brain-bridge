@@ -1,15 +1,14 @@
-import * as React from "react";
 import Link from "next/link";
 
-import { cn } from "@/lib/utils";
 import { useLockBody } from "@/hooks/use-lock-body";
+import { cn } from "@/lib/utils";
+import { Button, buttonVariants } from "./ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { Button, buttonVariants } from "./ui/button";
 
 export function MobileNav({ items, children }) {
   useLockBody();
@@ -50,10 +49,10 @@ export function MobileNav({ items, children }) {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="center" className="w-56 mt-4">
               <DropdownMenuItem className="cursor-pointer">
-                <Link href="">Student</Link>
+                <Link href="/register/student">Student</Link>
               </DropdownMenuItem>
               <DropdownMenuItem className="cursor-pointer">
-                <Link href="">Instructor</Link>
+                <Link href="/register/instructor">Instructor</Link>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
