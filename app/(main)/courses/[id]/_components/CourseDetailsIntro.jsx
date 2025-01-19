@@ -4,6 +4,7 @@ import Link from "next/link";
 import { EnrollCourse } from "@/components/enroll-course";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { SessionProvider } from "next-auth/react";
 
 export default function CourseDetailsIntro({ title, subtitle, thumbnail }) {
   return (
@@ -23,7 +24,9 @@ export default function CourseDetailsIntro({ title, subtitle, thumbnail }) {
               </p>
 
               <div className="mt-6 flex items-center justify-center flex-wrap gap-3">
-                <EnrollCourse />
+                <SessionProvider>
+                  <EnrollCourse />
+                </SessionProvider>
                 <Link
                   href=""
                   className={cn(

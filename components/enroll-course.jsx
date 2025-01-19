@@ -1,11 +1,23 @@
 "use client";
 import { createCheckoutSession } from "@/app/actions/stripe";
 import { Button, buttonVariants } from "@/components/ui/button";
+import { LOGIN } from "@/lib/routes";
 import { cn } from "@/lib/utils";
 import { ArrowRight } from "lucide-react";
+import { useSession } from "next-auth/react";
+import { usePathname, useRouter } from "next/navigation";
 
 export function EnrollCourse({ asLink }) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const { data: session } = useSession();
+
   const formAction = async (data) => {
+    if (!session) {
+      router.push(`${LOGIN}?redirect=${pathname}`);
+      return;
+    }
+
     const { url } = await createCheckoutSession(data);
     window.location.assign(url);
   };

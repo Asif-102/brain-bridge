@@ -1,6 +1,7 @@
 import { EnrollCourse } from "@/components/enroll-course";
 import { formatPrice } from "@/lib/formatPrice";
 import { BookOpen } from "lucide-react";
+import { SessionProvider } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -36,8 +37,9 @@ const CourseCard = ({ course }) => {
             <p className="text-md md:text-sm font-medium text-slate-700">
               {formatPrice(course?.price)}
             </p>
-
-            <EnrollCourse asLink={true} />
+            <SessionProvider>
+              <EnrollCourse asLink={true} />
+            </SessionProvider>
           </div>
         </div>
       </div>
