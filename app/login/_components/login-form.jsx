@@ -37,14 +37,16 @@ export function LoginForm() {
 
       if (!!response.error) {
         console.error(response.error);
-        setError(response.error);
+        // setError(response.error);
+        setError("Invalid Email or Password");
       } else {
         const redirect = params.get("redirect");
         window.location.href = redirect ?? ROOT;
       }
     } catch (e) {
       console.log(e.message);
-      setError(e.message);
+      // setError(e.message);
+      setError("Invalid Email or Password");
     } finally {
       setLoader(false);
     }
