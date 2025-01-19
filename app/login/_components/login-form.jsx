@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { ROOT } from "@/lib/routes";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 
@@ -39,7 +40,7 @@ export function LoginForm() {
         setError(response.error);
       } else {
         const redirect = params.get("redirect");
-        window.location.href = redirect ?? "/";
+        window.location.href = redirect ?? ROOT;
       }
     } catch (e) {
       console.log(e.message);
