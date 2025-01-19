@@ -58,7 +58,6 @@ export function SignupForm({ role }) {
       const responseText = await response.text();
 
       if (response.ok) {
-        setError("");
         router.push("/login");
       } else {
         setError(responseText);
