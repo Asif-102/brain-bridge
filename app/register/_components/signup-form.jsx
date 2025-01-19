@@ -26,6 +26,7 @@ export function SignupForm({ role }) {
   const onSubmit = async (event) => {
     event.preventDefault();
     setLoader(true);
+    setError("");
 
     try {
       const formData = new FormData(event.currentTarget);
