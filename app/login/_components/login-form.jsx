@@ -32,7 +32,6 @@ export function LoginForm() {
     try {
       const formData = new FormData(event.currentTarget);
       const response = await credentialLogin(formData);
-      console.log("🚀 ~ onSubmit ~ response:", response);
 
       if (!!response.error) {
         console.error(response.error);
@@ -87,9 +86,16 @@ export function LoginForm() {
         </form>
         <div className="mt-4 text-center text-sm">
           Don&apos;t have an account?{" "}
-          <Link href="register" className="underline">
-            Register
-          </Link>
+          <p>
+            Register as{" "}
+            <Link href="/register/instructor" className="underline">
+              Instructor
+            </Link>{" "}
+            or{" "}
+            <Link href="/register/student" className="underline">
+              Student
+            </Link>
+          </p>
         </div>
       </CardContent>
     </Card>
