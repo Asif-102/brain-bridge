@@ -41,6 +41,14 @@ export const POST = async (request) => {
   try {
     await dbConnect();
 
+    // Check for duplicate user by email
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return new NextResponse("User with this email already exists", {
+        status: 409, // Conflict status code
+      });
+    }
+
     await User.create(newUser);
     // await wait(3000);
     return new NextResponse("User has been created successfully", {

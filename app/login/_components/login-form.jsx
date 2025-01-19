@@ -15,14 +15,15 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 export function LoginForm() {
-  const router = useRouter();
-
   const [loader, setLoader] = useState(false);
   const [error, setError] = useState("");
+
+  const searchParams = useSearchParams();
+  const params = new URLSearchParams(searchParams);
 
   const onSubmit = async (event) => {
     event.preventDefault();
@@ -37,7 +38,8 @@ export function LoginForm() {
         console.error(response.error);
         setError(response.error);
       } else {
-        router.push("/courses");
+        const redirect = params.get("redirect");
+        window.location.href = redirect ?? "/";
       }
     } catch (e) {
       console.log(e.message);
