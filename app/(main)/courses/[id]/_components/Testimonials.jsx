@@ -10,7 +10,7 @@ import {
 import Image from "next/image";
 
 export default function Testimonials({ testimonials }) {
-  console.log("🚀 ~ Testimonials ~ testimonials:", testimonials);
+  // console.log("🚀 ~ Testimonials ~ testimonials:", testimonials);
   return (
     <section className="pb-8 md:pb-12 lg:pb-24">
       <div className="container">
