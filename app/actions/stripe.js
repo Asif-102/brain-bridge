@@ -7,7 +7,7 @@ const CURRENCY = "usd";
 
 import { headers } from "next/headers";
 
-export async function createCheckoutSession(data) {
+export async function createCheckoutSession(data, pathname) {
   const ui_mode = "hosted";
   const origin = headers().get("origin");
 
@@ -32,7 +32,7 @@ export async function createCheckoutSession(data) {
     ...(ui_mode === "hosted" && {
       success_url: `${origin}/enroll-success?session_id={CHECKOUT_SESSION_ID}&courseId=12445`,
 
-      cancel_url: `${origin}/courses`,
+      cancel_url: `${origin}${pathname}`,
     }),
 
     ui_mode,
