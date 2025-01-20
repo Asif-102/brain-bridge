@@ -41,7 +41,7 @@ const CourseCard = ({ course }) => {
           {formatPrice(course?.price)}
         </p>
         <SessionProvider>
-          <EnrollCourse asLink={true} />
+          <EnrollCourse asLink={true} course={course} />
         </SessionProvider>
       </div>
     </div>
