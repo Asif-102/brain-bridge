@@ -24,7 +24,7 @@ export function LoginForm() {
   const [error, setError] = useState("");
 
   const searchParams = useSearchParams();
-  const params = new URLSearchParams(searchParams);
+  const redirect = searchParams.get("redirect");
 
   const onSubmit = async (event) => {
     event.preventDefault();
@@ -37,15 +37,12 @@ export function LoginForm() {
 
       if (!!response.error) {
         console.error(response.error);
-        // setError(response.error);
         setError("Invalid Email or Password");
       } else {
-        const redirect = params.get("redirect");
         window.location.href = redirect ?? ROOT;
       }
     } catch (e) {
       console.log(e.message);
-      // setError(e.message);
       setError("Invalid Email or Password");
     } finally {
       setLoader(false);
@@ -93,11 +90,21 @@ export function LoginForm() {
           Don&apos;t have an account?{" "}
           <p>
             Register as{" "}
-            <Link href="/register/instructor" className="underline">
+            <Link
+              href={`/register/instructor${
+                redirect ? `?redirect=${redirect}` : ""
+              }`}
+              className="underline"
+            >
               Instructor
             </Link>{" "}
             or{" "}
-            <Link href="/register/student" className="underline">
+            <Link
+              href={`/register/student${
+                redirect ? `?redirect=${redirect}` : ""
+              }`}
+              className="underline"
+            >
               Student
             </Link>
           </p>

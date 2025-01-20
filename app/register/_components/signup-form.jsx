@@ -14,11 +14,13 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 export function SignupForm({ role }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get("redirect");
 
   const [loader, setLoader] = useState(false);
   const [error, setError] = useState("");
@@ -58,7 +60,7 @@ export function SignupForm({ role }) {
       const responseText = await response.text();
 
       if (response.ok) {
-        router.push("/login");
+        router.push(redirect ? `/login?redirect=${redirect}` : "/login");
       } else {
         setError(responseText);
       }
@@ -137,7 +139,10 @@ export function SignupForm({ role }) {
         </form>
         <div className="mt-4 text-center text-sm">
           Already have an account?{" "}
-          <Link href="/login" className="underline">
+          <Link
+            href={redirect ? `/login?redirect=${redirect}` : "/login"}
+            className="underline"
+          >
             Sign in
           </Link>
         </div>

@@ -10,6 +10,7 @@ import { usePathname, useRouter } from "next/navigation";
 export function EnrollCourse({ asLink }) {
   const router = useRouter();
   const pathname = usePathname();
+  console.log("🚀 ~ EnrollCourse ~ pathname:", pathname);
   const { data: session } = useSession();
 
   const formAction = async (data) => {
