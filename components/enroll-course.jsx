@@ -7,7 +7,7 @@ import { ArrowRight } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 
-export function EnrollCourse({ asLink, course }) {
+export function EnrollCourse({ asLink, courseId }) {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -26,9 +26,7 @@ export function EnrollCourse({ asLink, course }) {
   return (
     <>
       <form action={formAction}>
-        <input type="hidden" name="courseId" value={course?.id} />
-        <input type="hidden" name="courseName" value={course?.title} />
-        <input type="hidden" name="coursePrice" value={course?.price} />
+        <input type="hidden" name="courseId" value={courseId} />
         <input type="hidden" name="pathname" value={pathname} />
         {asLink ? (
           <Button
