@@ -51,10 +51,12 @@ export default function ContactInfo({ userInfo }) {
             <Input
               name="phone"
               id="number"
-              type="number"
+              type="tel"
+              pattern="(\+880|880|01)[0-9]{9}"
               value={infoState.phone}
               onChange={handleChange}
-              placeholder="Phone :"
+              // placeholder="Phone :"
+              placeholder="Format: +8801234567890 or 8801234567890 or 01123456789"
               required
             />
           </div>
