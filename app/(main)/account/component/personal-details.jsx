@@ -3,6 +3,7 @@
 import { updateUserInfo } from "@/app/actions/account";
 import { ButtonLoading } from "@/components/button-loading";
 import { useState } from "react";
+import { toast } from "sonner";
 
 const { Button } = require("@/components/ui/button");
 const { Input } = require("@/components/ui/input");
@@ -37,8 +38,10 @@ export default function PersonalDetails({ userInfo }) {
 
     try {
       await updateUserInfo(userInfo?.email, infoState);
+      toast.success("User details updated successfully.");
     } catch (error) {
       console.error(error);
+      toast.error(`Error: ${error.message}`);
     } finally {
       setLoader(false);
     }
