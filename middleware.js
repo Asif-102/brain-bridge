@@ -32,7 +32,11 @@ export default auth((req) => {
 
   if (!isAuthenticated && !isPublicRoute) {
     const redirectUrl = new URL(LOGIN, nextUrl.origin);
-    redirectUrl.searchParams.set("redirect", nextUrl.pathname);
+
+    // Add the full path including query parameters as the redirect parameter
+    const fullPath = `${nextUrl.pathname}${nextUrl.search}`;
+    redirectUrl.searchParams.set("redirect", fullPath);
+
     return Response.redirect(redirectUrl);
   }
 });
