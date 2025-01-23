@@ -23,7 +23,7 @@ export function EnrollCourse({ asLink, courseId }) {
       return;
     }
 
-    const chk = await fetch("/api/enrollments/hasEnrollment", {
+    const chk = await fetch("/api/enrollments/hasenrollment", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
