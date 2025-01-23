@@ -27,6 +27,28 @@ export async function getEnrollmentsForUser(userId) {
   }
 }
 
+export async function hasEnrollmentForCourse(courseId, studentId) {
+  try {
+    await dbConnect();
+
+    const enrollment = await Enrollment.findOne({
+      course: courseId,
+      student: studentId,
+    })
+      .populate({
+        path: "course",
+        model: Course,
+      })
+      .lean();
+
+    if (!enrollment) return false;
+
+    return true;
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
 export async function enrollForCourse(courseId, userId, paymentMethod) {
   const newEnrollment = {
     course: courseId,
