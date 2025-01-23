@@ -1,15 +1,52 @@
 //import { CourseProgress } from "@/components/course-progress";
 import { Badge } from "@/components/ui/badge";
 import { getCategoryDetails } from "@/queries/categories";
+import { getAReport } from "@/queries/reports";
 import { BookOpen } from "lucide-react";
 import Image from "next/image";
 
 export default async function EnrolledCourseCard({ enrollment }) {
-  console.log("🚀 ~ EnrolledCourseCard ~ enrollment:", enrollment);
   const courseCategory = await getCategoryDetails(
     enrollment?.course?.category?._id
   );
-  console.log("🚀 ~ EnrolledCourseCard ~ courseCategory:", courseCategory);
+
+  const filter = {
+    course: enrollment?.course?._id,
+    student: enrollment?.student?._id,
+  };
+
+  const report = await getAReport(filter);
+  //   console.log("🚀 ~ EnrolledCourseCard ~ report:", report);
+
+  // Total Completed Modules
+  const totalCompletedModules = report?.totalCompletedModeules?.length;
+
+  // Get all Quizzes and Assignments
+  const quizzes = report?.quizAssessment?.assessments;
+  const totalQuizzes = quizzes?.length;
+
+  // Find attempted quizzes
+  const quizzesTaken = quizzes.filter((q) => q.attempted);
+  console.log(quizzesTaken);
+
+  // Find how many quizzes answered correct
+
+  const totalCorrect = quizzesTaken
+    .map((quiz) => {
+      const item = quiz.options;
+      return item.filter((o) => {
+        return o.isCorrect === true && o.isSelected === true;
+      });
+    })
+    .filter((elem) => elem.length > 0)
+    .flat();
+  //   console.log("🚀 ~ totalCorrect ~ totalCorrect:", totalCorrect);
+
+  const marksFromQuizzes = totalCorrect?.length * 5;
+
+  const otherMarks = report?.quizAssessment?.otherMarks;
+
+  const totalMarks = marksFromQuizzes + otherMarks;
 
   return (
     <div className="group hover:shadow-sm transition overflow-hidden border rounded-lg p-3 h-full">
@@ -40,16 +77,17 @@ export default async function EnrolledCourseCard({ enrollment }) {
               Total Modules: {enrollment?.course?.modules?.length}
             </p>
             <div className="text-md md:text-sm font-medium text-slate-700">
-              Completed Modules <Badge variant="success">05</Badge>
+              Completed Modules{" "}
+              <Badge variant="success">{totalCompletedModules}</Badge>
             </div>
           </div>
           <div className="flex items-center justify-between mt-2">
             <p className="text-md md:text-sm font-medium text-slate-700">
-              Total Quizzes: 10
+              Total Quizzes: {totalQuizzes}
             </p>
 
             <div className="text-md md:text-sm font-medium text-slate-700">
-              Quiz taken <Badge variant="success">10</Badge>
+              Quiz taken <Badge variant="success">{quizzesTaken.length}</Badge>
             </div>
           </div>
           <div className="flex items-center justify-between mt-2">
@@ -57,14 +95,18 @@ export default async function EnrolledCourseCard({ enrollment }) {
               Mark from Quizzes
             </p>
 
-            <p className="text-md md:text-sm font-medium text-slate-700">50</p>
+            <p className="text-md md:text-sm font-medium text-slate-700">
+              {marksFromQuizzes}
+            </p>
           </div>
           <div className="flex items-center justify-between mt-2">
             <p className="text-md md:text-sm font-medium text-slate-700">
               Others
             </p>
 
-            <p className="text-md md:text-sm font-medium text-slate-700">50</p>
+            <p className="text-md md:text-sm font-medium text-slate-700">
+              {otherMarks}
+            </p>
           </div>
         </div>
         <div className="flex items-center justify-between mb-4">
@@ -72,7 +114,9 @@ export default async function EnrolledCourseCard({ enrollment }) {
             Total Marks
           </p>
 
-          <p className="text-md md:text-sm font-medium text-slate-700">100</p>
+          <p className="text-md md:text-sm font-medium text-slate-700">
+            {totalMarks}
+          </p>
         </div>
 
         {/*<CourseProgress
