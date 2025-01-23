@@ -1,6 +1,7 @@
 import { Enrollment } from "@/model/enrollment-model";
 
 import { replaceMongoIdInArray } from "@/lib/convertData";
+import { Course } from "@/model/course-model";
 import dbConnect from "@/service/mongo";
 
 export async function getEnrollmentsForCourse(courseId) {
@@ -8,6 +9,22 @@ export async function getEnrollmentsForCourse(courseId) {
 
   const enrollments = await Enrollment.find({ course: courseId }).lean();
   return replaceMongoIdInArray(enrollments);
+}
+
+export async function getEnrollmentsForUser(userId) {
+  try {
+    await dbConnect();
+
+    const enrollments = await Enrollment.find({ student: userId })
+      .populate({
+        path: "course",
+        model: Course,
+      })
+      .lean();
+    return replaceMongoIdInArray(enrollments);
+  } catch (err) {
+    throw new Error(err);
+  }
 }
 
 export async function enrollForCourse(courseId, userId, paymentMethod) {
