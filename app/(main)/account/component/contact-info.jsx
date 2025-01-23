@@ -8,10 +8,12 @@ import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { toast } from "sonner";
 
+const socialFields = ["linkedin", "twitter", "facebook"];
+
 export default function ContactInfo({ userInfo }) {
   const [infoState, setInfoState] = useState({
     phone: userInfo.phone ?? "",
-    socialMedia: userInfo.socialMedia ?? "",
+    socialMedia: userInfo.socialMedia ?? {},
   });
 
   const [loader, setLoader] = useState(false);
@@ -20,10 +22,20 @@ export default function ContactInfo({ userInfo }) {
     const field = event.target.name;
     const value = event.target.value;
 
-    setInfoState({
-      ...infoState,
-      [field]: value,
-    });
+    if (socialFields.includes(field)) {
+      setInfoState((prevState) => ({
+        ...prevState,
+        socialMedia: {
+          ...prevState.socialMedia,
+          [field]: value,
+        },
+      }));
+    } else {
+      setInfoState({
+        ...infoState,
+        [field]: value,
+      });
+    }
   };
 
   const handleUpdate = async (event) => {
@@ -61,12 +73,36 @@ export default function ContactInfo({ userInfo }) {
             />
           </div>
           <div>
-            <Label className="mb-2 block">Website :</Label>
+            <Label className="mb-2 block">Linkedin :</Label>
             <Input
-              name="socialMedia"
-              value={infoState.socialMedia}
+              name="linkedin"
+              value={infoState?.socialMedia?.linkedin}
               onChange={handleChange}
-              id="url"
+              id="linkedin"
+              type="url"
+              placeholder="Url :"
+              required
+            />
+          </div>
+          <div>
+            <Label className="mb-2 block">Twitter :</Label>
+            <Input
+              name="twitter"
+              value={infoState?.socialMedia?.twitter}
+              onChange={handleChange}
+              id="twitter"
+              type="url"
+              placeholder="Url :"
+              required
+            />
+          </div>
+          <div>
+            <Label className="mb-2 block">Facebook :</Label>
+            <Input
+              name="facebook"
+              value={infoState?.socialMedia?.facebook}
+              onChange={handleChange}
+              id="facebook"
               type="url"
               placeholder="Url :"
               required
