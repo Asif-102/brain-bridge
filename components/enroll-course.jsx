@@ -7,7 +7,7 @@ import { ArrowRight } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export function EnrollCourse({ asLink, courseId }) {
   const router = useRouter();
@@ -17,31 +17,26 @@ export function EnrollCourse({ asLink, courseId }) {
 
   const [hasEnrollment, setHasEnrollment] = useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch("/api/enrollments/hasEnrollment", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          courseId,
-          email: session?.user?.email,
-        }),
-      });
-
-      const data = await response.json();
-      setHasEnrollment(data);
-    };
-
-    if (session?.user) {
-      fetchData();
-    }
-  }, [session, courseId]);
-
   const formAction = async (data) => {
     if (!session) {
       router.push(`${LOGIN}?redirect=${pathname}`);
+      return;
+    }
+
+    const chk = await fetch("/api/enrollments/hasEnrollment", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        courseId,
+        email: session?.user?.email,
+      }),
+    });
+
+    const checkHasEnrollment = await chk.json();
+    if (checkHasEnrollment) {
+      setHasEnrollment(checkHasEnrollment);
       return;
     }
 

@@ -4,6 +4,7 @@ import { getCourseDetailsByInstructor } from "@/queries/courses";
 import Image from "next/image";
 
 const CourseInstructor = async ({ course }) => {
+  console.log("🚀 ~ CourseInstructor ~ course:", course);
   const instructor = course?.instructor;
 
   const fullName = `${instructor?.firstName}  ${instructor?.lastName}`;
