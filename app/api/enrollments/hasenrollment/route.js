@@ -1,6 +1,5 @@
-import { User } from "@/model/user-model";
 import { hasEnrollmentForCourse } from "@/queries/enrollments";
-import dbConnect from "@/service/mongo";
+import { getUserByEmail } from "@/queries/users";
 
 import { NextResponse } from "next/server";
 
@@ -8,9 +7,7 @@ export const POST = async (request) => {
   const { courseId, email } = await request.json();
 
   try {
-    await dbConnect();
-
-    const user = await User.findOne({ email });
+    const user = await getUserByEmail(email);
 
     const hasEnrollment = await hasEnrollmentForCourse(courseId, user?.id);
 
