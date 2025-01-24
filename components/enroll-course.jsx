@@ -8,6 +8,7 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export function EnrollCourse({ asLink, courseId }) {
   const router = useRouter();
@@ -36,6 +37,7 @@ export function EnrollCourse({ asLink, courseId }) {
 
     const checkHasEnrollment = await chk.json();
     if (checkHasEnrollment) {
+      toast.success(`You already enrolled this course.`);
       setHasEnrollment(checkHasEnrollment);
       return;
     }
