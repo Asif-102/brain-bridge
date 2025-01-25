@@ -31,7 +31,6 @@ export function EnrollCourse({ asLink, courseId }) {
       },
       body: JSON.stringify({
         courseId,
-        email: session?.user?.email,
       }),
     });
 

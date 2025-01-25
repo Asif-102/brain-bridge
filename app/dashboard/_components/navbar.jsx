@@ -49,16 +49,16 @@ export const Navbar = () => {
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-56 mt-4">
-            <DropdownMenuItem className="cursor-pointer">
-              <Link
-                href="#"
-                onClick={() => {
-                  signOut();
-                }}
-              >
+            <Link
+              href="#"
+              onClick={() => {
+                signOut();
+              }}
+            >
+              <DropdownMenuItem className="cursor-pointer">
                 Logout
-              </Link>
-            </DropdownMenuItem>
+              </DropdownMenuItem>
+            </Link>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

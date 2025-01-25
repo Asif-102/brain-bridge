@@ -13,10 +13,10 @@ export const POST = async (request) => {
     });
   }
 
-  const { courseId, email } = await request.json();
+  const { courseId } = await request.json();
 
   try {
-    const user = await getUserByEmail(email);
+    const user = await getUserByEmail(session?.user?.email);
 
     const hasEnrollment = await hasEnrollmentForCourse(courseId, user?.id);
 
