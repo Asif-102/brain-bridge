@@ -1,7 +1,14 @@
-import { MessageSquare, Presentation, Star, UsersRound } from "lucide-react";
+import {
+  ArrowRight,
+  MessageSquare,
+  Presentation,
+  Star,
+  UsersRound,
+} from "lucide-react";
 
 import { getCourseDetailsByInstructor } from "@/queries/courses";
 import Image from "next/image";
+import Link from "next/link";
 
 const CourseInstructor = async ({ course }) => {
   console.log("🚀 ~ CourseInstructor ~ course:", course);
@@ -50,6 +57,16 @@ const CourseInstructor = async ({ course }) => {
               <li className="flex space-x-3">
                 <Star className="text-gray-600" />
                 <div>{courseDetailsByInstructor?.ratings} Average Rating</div>
+              </li>
+              <li className="flex space-x-3">
+                <Link
+                  href={`/inst-profile/${course?.id}`}
+                  variant="ghost"
+                  className="text-xs text-sky-700 h-7 gap-1 flex items-center"
+                >
+                  See Profile
+                  <ArrowRight className="w-3" />
+                </Link>
               </li>
             </ul>
           </div>

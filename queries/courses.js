@@ -12,10 +12,10 @@ import dbConnect from "@/service/mongo";
 import { getEnrollmentsForCourse } from "./enrollments";
 import { getTestimonialsForCourse } from "./testimonials";
 
-export async function getCourseList() {
+export async function getCourseList(filter = {}) {
   await dbConnect();
 
-  const courses = await Course.find({})
+  const courses = await Course.find(filter)
     .select([
       "title",
       "subtitle",
