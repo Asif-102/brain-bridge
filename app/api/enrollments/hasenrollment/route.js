@@ -1,9 +1,18 @@
+import { auth } from "@/auth";
 import { hasEnrollmentForCourse } from "@/queries/enrollments";
 import { getUserByEmail } from "@/queries/users";
 
 import { NextResponse } from "next/server";
 
 export const POST = async (request) => {
+  const session = await auth();
+
+  if (!session?.user) {
+    return new NextResponse(`You are not authenticated!`, {
+      status: 401,
+    });
+  }
+
   const { courseId, email } = await request.json();
 
   try {
