@@ -11,7 +11,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 const CourseInstructor = async ({ course }) => {
-  console.log("🚀 ~ CourseInstructor ~ course:", course);
+  // console.log("🚀 ~ CourseInstructor ~ course:", course);
   const instructor = course?.instructor;
 
   const fullName = `${instructor?.firstName}  ${instructor?.lastName}`;
