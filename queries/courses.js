@@ -8,6 +8,7 @@ import {
   replaceMongoIdInArray,
   replaceMongoIdInObject,
 } from "@/lib/convertData";
+import { groupBy } from "@/lib/customFunction";
 import dbConnect from "@/service/mongo";
 import { getEnrollmentsForCourse } from "./enrollments";
 import { getTestimonialsForCourse } from "./testimonials";
@@ -86,6 +87,12 @@ export async function getCourseDetailsByInstructor(instructorId) {
     })
   );
 
+  const groupedByCourses = groupBy(enrollments.flat(), ({ course }) => course);
+
+  const totalRevenue = courses.reduce((acc, course) => {
+    return acc + groupedByCourses[course._id].length * course.price;
+  }, 0);
+
   const totalEnrollments = enrollments.reduce(function (acc, obj) {
     return acc + obj.length;
   }, 0);
@@ -110,5 +117,6 @@ export async function getCourseDetailsByInstructor(instructorId) {
     enrollments: totalEnrollments,
     reviews: totalTestimonials.length,
     ratings: avgRating.toPrecision(2),
+    revenue: totalRevenue,
   };
 }
