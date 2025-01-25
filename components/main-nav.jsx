@@ -17,6 +17,7 @@ import {
 } from "./ui/dropdown-menu";
 
 import { signOut, useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 import { useEffect } from "react";
 import { Spinner } from "./ui/spinner";
 
@@ -25,12 +26,28 @@ export function MainNav({ items, children }) {
 
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [loginSession, setLoginSession] = useState(false);
+  const [loggedInUser, setLoggedInUser] = useState(null);
 
   console.log(loginSession);
 
+  if (session?.error === "RefreshAccessTokenError") {
+    redirect("/login");
+  }
+
   useEffect(() => {
-    console.log("test");
     setLoginSession(session);
+    async function fetchMe() {
+      try {
+        const response = await fetch("/api/me");
+        const data = await response.json();
+        console.log(data);
+        setLoggedInUser(data);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    fetchMe();
   }, [session]);
 
   return (
@@ -95,7 +112,10 @@ export function MainNav({ items, children }) {
             <div className="cursor-pointer">
               <Avatar>
                 <AvatarImage
-                  src="https://github.com/shadcn.png"
+                  src={
+                    loggedInUser?.profilePicture ??
+                    "https://github.com/shadcn.png"
+                  }
                   alt="@shadcn"
                 />
                 <AvatarFallback>CN</AvatarFallback>
@@ -106,6 +126,11 @@ export function MainNav({ items, children }) {
             <DropdownMenuItem className="cursor-pointer" asChild>
               <Link href="/account">Profile</Link>
             </DropdownMenuItem>
+            {loggedInUser?.role === "instructor" && (
+              <DropdownMenuItem className="cursor-pointer" asChild>
+                <Link href="/dashboard">Dashboard</Link>
+              </DropdownMenuItem>
+            )}
             <DropdownMenuItem className="cursor-pointer" asChild>
               <Link href="/account/enrolled-courses">My Courses</Link>
             </DropdownMenuItem>

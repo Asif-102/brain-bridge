@@ -11,7 +11,7 @@ export const POST = async (request) => {
 
     const hasEnrollment = await hasEnrollmentForCourse(courseId, user?.id);
 
-    return new NextResponse(hasEnrollment, {
+    return new NextResponse(JSON.stringify(hasEnrollment), {
       status: 200,
     });
   } catch (error) {
