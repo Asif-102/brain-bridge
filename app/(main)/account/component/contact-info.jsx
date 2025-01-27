@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { toast } from "sonner";
 
-const socialFields = ["linkedin", "twitter", "facebook"];
+const socialFields = ["linkedin", "twitter", "github"];
 
 export default function ContactInfo({ userInfo }) {
   const [infoState, setInfoState] = useState({
@@ -97,12 +97,12 @@ export default function ContactInfo({ userInfo }) {
             />
           </div>
           <div>
-            <Label className="mb-2 block">Facebook :</Label>
+            <Label className="mb-2 block">GitHub :</Label>
             <Input
-              name="facebook"
-              value={infoState?.socialMedia?.facebook}
+              name="github"
+              value={infoState?.socialMedia?.github}
               onChange={handleChange}
-              id="facebook"
+              id="github"
               type="url"
               placeholder="Url :"
               required
