@@ -23,6 +23,23 @@ export const ImageForm = ({ initialData, courseId }) => {
 
   const uploadFile = async () => {
     try {
+      // Validate file type
+      const allowedTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/gif",
+        "image/webp",
+      ];
+      if (!allowedTypes.includes(file[0].type)) {
+        throw new Error("Only image files (JPEG, PNG, GIF, WEBP) are allowed.");
+      }
+
+      // Validate file size (e.g., 1 MB limit)
+      const maxFileSize = 1 * 1024 * 1024; // 1 MB in bytes
+      if (file[0].size > maxFileSize) {
+        throw new Error("File size must be less than 1 MB.");
+      }
+
       const formData = new FormData();
       formData.append("files", file[0]);
       formData.append("courseId", courseId);
