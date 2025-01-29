@@ -3,7 +3,7 @@
 
 import { UploadDropzone } from "@/components/file-upload";
 import { Button } from "@/components/ui/button";
-import { allowedImageTypes, imageSiziLimit } from "@/lib/validation";
+import { ALLOW_IMAGE_TYPES, IMAGE_SIZE_LIMIT } from "@/lib/validation";
 import { ImageIcon, Pencil, PlusCircle } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -24,14 +24,11 @@ export const ImageForm = ({ initialData, courseId }) => {
 
   const uploadFile = async () => {
     try {
-      // Validate file type
-      if (!allowedImageTypes.includes(file[0].type)) {
+      if (!ALLOW_IMAGE_TYPES.includes(file[0].type)) {
         throw new Error("Only image files (JPEG, PNG, GIF, WEBP) are allowed.");
       }
 
-      // Validate file size (e.g., 1 MB limit)
-      const maxFileSize = imageSiziLimit;
-      if (file[0].size > maxFileSize) {
+      if (file[0].size > IMAGE_SIZE_LIMIT) {
         throw new Error("File size must be less than 1 MB.");
       }
 
