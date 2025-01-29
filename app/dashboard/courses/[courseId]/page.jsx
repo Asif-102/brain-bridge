@@ -1,5 +1,6 @@
 import AlertBanner from "@/components/alert-banner";
 import { IconBadge } from "@/components/icon-badge";
+import { getCategories } from "@/queries/categories";
 import { getCourseDetails } from "@/queries/courses";
 import { CircleDollarSign, LayoutDashboard, ListChecks } from "lucide-react";
 import { CategoryForm } from "./_components/category-form";
@@ -13,6 +14,14 @@ import { TitleForm } from "./_components/title-form";
 
 const EditCourse = async ({ params: { courseId } }) => {
   const course = await getCourseDetails(courseId);
+  const categories = await getCategories();
+  const mappedCategories = categories.map((c) => {
+    return {
+      value: c.title,
+      label: c.title,
+      id: c.id,
+    };
+  });
   return (
     <>
       <AlertBanner
@@ -40,7 +49,11 @@ const EditCourse = async ({ params: { courseId } }) => {
               courseId={courseId}
             />
             <ImageForm initialData={{}} courseId={courseId} />
-            <CategoryForm initialData={{}} courseId={courseId} />
+            <CategoryForm
+              initialData={{ value: course?.category?.title }}
+              courseId={courseId}
+              options={mappedCategories}
+            />
 
             <QuizSetForm initialData={{}} courseId={courseId} />
           </div>
