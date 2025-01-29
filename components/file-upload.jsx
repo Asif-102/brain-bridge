@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 // import uploadIcon from "@/assets/icons/upload.svg";
 import { Progress } from "@/components/ui/progress";
@@ -8,7 +9,7 @@ import { useDropzone } from "react-dropzone";
 import { toast } from "sonner";
 
 export const UploadDropzone = (props) => {
-  const { isMulti = false, label } = props;
+  const { isMulti = false, label, onUpload } = props;
 
   const [droppedFiles, setDroppedFiles] = useState(null);
 
@@ -50,6 +51,7 @@ export const UploadDropzone = (props) => {
     // });
     setUploadProgress(100);
     clearInterval(progressInterval);
+    onUpload(acceptedFiles);
   }, []);
 
   const { getRootProps, getInputProps, fileRejections } = useDropzone({
