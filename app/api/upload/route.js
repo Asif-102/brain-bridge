@@ -1,5 +1,6 @@
 import { updateCourse } from "@/app/actions/course";
-import { put } from "@vercel/blob";
+import { getCourseDetails } from "@/queries/courses";
+import { del, put } from "@vercel/blob"; // Import the `del` method
 import { NextResponse } from "next/server";
 
 export async function POST(request) {
@@ -14,7 +15,21 @@ export async function POST(request) {
       });
     }
 
-    // Upload the file to Vercel Blob
+    // Get the current course details
+    const course = await getCourseDetails(courseId);
+
+    // If the course already has a thumbnail, delete it from Vercel Blob
+    if (course?.thumbnail) {
+      try {
+        await del(course.thumbnail); // Delete the existing thumbnail
+        console.log("Deleted old thumbnail:", course.thumbnail);
+      } catch (error) {
+        console.error("Error deleting old thumbnail:", error);
+        // Continue even if deletion fails (e.g., file might not exist)
+      }
+    }
+
+    // Upload the new file to Vercel Blob
     const { url } = await put(file.name, file, {
       access: "public", // Make the file publicly accessible
     });
