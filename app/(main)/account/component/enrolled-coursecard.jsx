@@ -52,7 +52,7 @@ export default async function EnrolledCourseCard({ enrollment }) {
     <div className="group hover:shadow-sm transition overflow-hidden border rounded-lg p-3 h-full">
       <div className="relative w-full aspect-video rounded-md overflow-hidden">
         <Image
-          src={`/assets/images/courses/${enrollment?.course?.thumbnail}`}
+          src={`${enrollment?.course?.thumbnail}`}
           alt={enrollment?.course?.title}
           className="object-cover"
           fill

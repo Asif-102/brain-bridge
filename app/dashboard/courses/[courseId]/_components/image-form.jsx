@@ -1,69 +1,56 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import { useEffect, useState } from "react";
-
-// import axios from "axios";
-import { ImageIcon, Pencil, PlusCircle } from "lucide-react";
-import Image from "next/image";
-import { toast } from "sonner";
-import * as z from "zod";
-
 import { UploadDropzone } from "@/components/file-upload";
 import { Button } from "@/components/ui/button";
+import { ImageIcon, Pencil, PlusCircle } from "lucide-react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
-
-const formSchema = z.object({
-  imageUrl: z.string().min(1, {
-    message: "Image is required",
-  }),
-});
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 export const ImageForm = ({ initialData, courseId }) => {
   const [file, setFile] = useState(null);
-  const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
+  const [imageUrl, setImageUrl] = useState(initialData.imageUrl);
+  const router = useRouter();
 
   useEffect(() => {
     if (file) {
-      async function uploadFile() {
-        try {
-          const formData = new FormData();
-          formData.append("files", file[0]);
-          formData.append("destination", "./public/assets/images/courses");
-          formData.append("courseId", courseId);
-          const response = await fetch("/api/upload", {
-            method: "POST",
-            body: formData,
-          });
-          const result = await response.text();
-          console.log(result);
-          if (response.status === 200) {
-            initialData.imageUrl = `/assets/images/courses/${file[0].path}`;
-            toast.success(result);
-            toggleEdit();
-            router.refresh();
-          }
-        } catch (error) {
-          toast.error(error.message);
-        }
-      }
-
       uploadFile();
     }
   }, [file]);
 
-  const toggleEdit = () => setIsEditing((current) => !current);
-
-  const onSubmit = async (values) => {
+  const uploadFile = async () => {
     try {
-      toast.success("Course updated");
+      const formData = new FormData();
+      formData.append("files", file[0]);
+      formData.append("courseId", courseId);
+
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to upload file");
+      }
+
+      const result = await response.json();
+      const newImageUrl = result.url; // URL returned by Vercel Blob
+
+      // Update the image URL in the UI
+      setImageUrl(newImageUrl);
+      toast.success("File uploaded successfully!");
       toggleEdit();
-      router.refresh();
+      router.refresh(); // Refresh the page to reflect changes
     } catch (error) {
-      toast.error("Something went wrong");
+      console.error("Error uploading file:", error);
+      toast.error(error.message);
     }
   };
+
+  const toggleEdit = () => setIsEditing((current) => !current);
 
   return (
     <div className="mt-6 border bg-gray-50 rounded-md p-4">
@@ -71,13 +58,13 @@ export const ImageForm = ({ initialData, courseId }) => {
         Course Image
         <Button variant="ghost" onClick={toggleEdit}>
           {isEditing && <>Cancel</>}
-          {!isEditing && !initialData.imageUrl && (
+          {!isEditing && !imageUrl && (
             <>
               <PlusCircle className="h-4 w-4 mr-2" />
               Add an image
             </>
           )}
-          {!isEditing && initialData.imageUrl && (
+          {!isEditing && imageUrl && (
             <>
               <Pencil className="h-4 w-4 mr-2" />
               Edit image
@@ -86,7 +73,7 @@ export const ImageForm = ({ initialData, courseId }) => {
         </Button>
       </div>
       {!isEditing &&
-        (!initialData.imageUrl ? (
+        (!imageUrl ? (
           <div className="flex items-center justify-center h-60 bg-slate-200 rounded-md">
             <ImageIcon className="h-10 w-10 text-slate-500" />
           </div>
@@ -96,7 +83,7 @@ export const ImageForm = ({ initialData, courseId }) => {
               alt="Upload"
               fill
               className="object-cover rounded-md"
-              src={initialData.imageUrl}
+              src={imageUrl}
             />
           </div>
         ))}

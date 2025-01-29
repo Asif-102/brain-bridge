@@ -70,7 +70,7 @@ export default async function CourseDetailsIntro({ course }) {
                     className="w-full rounded-lg"
                     width={768}
                     height={463}
-                    src={`/assets/images/courses/${course?.thumbnail}`}
+                    src={`${course?.thumbnail}`}
                     alt={course?.title}
                   />
                 </div>
