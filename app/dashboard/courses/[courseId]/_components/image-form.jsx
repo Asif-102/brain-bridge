@@ -29,7 +29,7 @@ export const ImageForm = ({ initialData, courseId }) => {
       }
 
       if (file[0].size > IMAGE_SIZE_LIMIT) {
-        throw new Error("File size must be less than 1 MB.");
+        throw new Error("Image size must be less than 1 MB.");
       }
 
       const formData = new FormData();
@@ -46,13 +46,12 @@ export const ImageForm = ({ initialData, courseId }) => {
       }
 
       const result = await response.json();
-      const newImageUrl = result.url; // URL returned by Vercel Blob
+      const newImageUrl = result.url;
 
-      // Update the image URL in the UI
       setImageUrl(newImageUrl);
-      toast.success("File uploaded successfully!");
+      toast.success("Image uploaded successfully!");
       toggleEdit();
-      router.refresh(); // Refresh the page to reflect changes
+      router.refresh();
     } catch (error) {
       console.error("Error uploading file:", error);
       toast.error(error.message);

@@ -15,26 +15,21 @@ export async function POST(request) {
       });
     }
 
-    // Get the current course details
     const course = await getCourseDetails(courseId);
 
-    // If the course already has a thumbnail, delete it from Vercel Blob
     if (course?.thumbnail) {
       try {
-        await del(course.thumbnail); // Delete the existing thumbnail
+        await del(course.thumbnail);
         console.log("Deleted old thumbnail:", course.thumbnail);
       } catch (error) {
         console.error("Error deleting old thumbnail:", error);
-        // Continue even if deletion fails (e.g., file might not exist)
       }
     }
 
-    // Upload the new file to Vercel Blob
     const { url } = await put(file.name, file, {
-      access: "public", // Make the file publicly accessible
+      access: "public",
     });
 
-    // Update the course with the new image URL
     await updateCourse(courseId, { thumbnail: url });
 
     return NextResponse.json({ url }, { status: 200 });
