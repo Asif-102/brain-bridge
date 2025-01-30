@@ -42,7 +42,7 @@ export const ImageForm = ({ initialData, courseId }) => {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to upload file");
+        throw new Error("Failed to upload image");
       }
 
       const result = await response.json();
@@ -53,7 +53,7 @@ export const ImageForm = ({ initialData, courseId }) => {
       toggleEdit();
       router.refresh();
     } catch (error) {
-      console.error("Error uploading file:", error);
+      console.error("Error uploading image:", error);
       toast.error(error.message);
     }
   };
