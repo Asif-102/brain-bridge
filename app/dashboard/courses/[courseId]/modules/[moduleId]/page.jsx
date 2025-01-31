@@ -10,12 +10,12 @@ import { ModuleTitleForm } from "./_components/module-title-form";
 
 const Module = async ({ params: { courseId, moduleId } }) => {
   const cmodule = await getModule(moduleId);
-  console.log("🚀 ~ Module ~ cmodule:", cmodule);
+  // console.log("🚀 ~ Module ~ cmodule:", cmodule);
 
   const lessons = replaceMongoIdInArray(cmodule.lessonIds).sort(
     (a, b) => a.order - b.order
   );
-  console.log("🚀 ~ Module ~ lessons:", lessons);
+  // console.log("🚀 ~ Module ~ lessons:", lessons);
   return (
     <>
       <AlertBanner
@@ -56,7 +56,11 @@ const Module = async ({ params: { courseId, moduleId } }) => {
                 <IconBadge icon={BookOpenCheck} />
                 <h2 className="text-xl">Module Lessons</h2>
               </div>
-              <LessonForm initialData={lessons} moduleId={moduleId} />
+              <LessonForm
+                initialData={lessons}
+                moduleId={moduleId}
+                courseId={courseId}
+              />
             </div>
           </div>
           <div>

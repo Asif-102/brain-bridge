@@ -42,3 +42,14 @@ export async function reOrderLesson(data) {
     throw new Error(err);
   }
 }
+
+export async function updateLesson(lessonId, data) {
+  console.log("**** updateLesson", lessonId, data);
+  try {
+    await dbConnect();
+
+    await Lesson.findByIdAndUpdate(lessonId, data);
+  } catch (err) {
+    throw new Error(err);
+  }
+}
