@@ -64,7 +64,7 @@ export const VideoUrlForm = ({ initialData, courseId, lessonId }) => {
         setState({
           ...state,
           url: values?.url,
-          duration: formatDuration(values?.duration),
+          duration: values?.duration,
         });
         toast.success("Lesson updated");
         toggleEdit();
