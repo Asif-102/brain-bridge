@@ -20,7 +20,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import { LessonList } from "./lesson-list";
-import { LessonModal } from "./lesson-modal";
 
 import { createLesson, reOrderLesson } from "@/app/actions/lesson";
 
@@ -34,8 +33,6 @@ export const LessonForm = ({ initialData, moduleId, courseId }) => {
   const router = useRouter();
   const [isCreating, setIsCreating] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
-
-  const [lessonToEdit, setLessonToEdit] = useState(null);
 
   const toggleCreating = () => setIsCreating((current) => !current);
   const toggleEditing = () => setIsEditing((current) => !current);
@@ -91,9 +88,9 @@ export const LessonForm = ({ initialData, moduleId, courseId }) => {
   };
 
   const onEdit = (id) => {
-    const foundLesson = lessons.find((lesson) => lesson.id === id);
-    setLessonToEdit(foundLesson);
-    setIsEditing(true);
+    router.push(
+      `/dashboard/courses/${courseId}/modules/${moduleId}/lesson/${id}`
+    );
   };
 
   return (
@@ -165,12 +162,6 @@ export const LessonForm = ({ initialData, moduleId, courseId }) => {
           Drag & Drop to reorder the lessons
         </p>
       )}
-      <LessonModal
-        open={isEditing}
-        setOpen={setIsEditing}
-        courseId={courseId}
-        lesson={lessonToEdit}
-      />
     </div>
   );
 };
