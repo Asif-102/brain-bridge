@@ -11,6 +11,7 @@ import { ImageForm } from "./_components/image-form";
 import { ModulesForm } from "./_components/module-form";
 import { PriceForm } from "./_components/price-form";
 import { QuizSetForm } from "./_components/quiz-set-form";
+import { SubTitleForm } from "./_components/sub-title-form";
 import { TitleForm } from "./_components/title-form";
 
 const EditCourse = async ({ params: { courseId } }) => {
@@ -47,6 +48,12 @@ const EditCourse = async ({ params: { courseId } }) => {
             <TitleForm
               initialData={{
                 title: course?.title,
+              }}
+              courseId={courseId}
+            />
+            <SubTitleForm
+              initialData={{
+                subtitle: course?.subtitle,
               }}
               courseId={courseId}
             />
