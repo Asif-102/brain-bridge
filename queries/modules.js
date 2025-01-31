@@ -1,5 +1,5 @@
 import { replaceMongoIdInObject } from "@/lib/convertData";
-import { Module } from "@/model/module.model";
+import { Module } from "@/model/module-model";
 import dbConnect from "@/service/mongo";
 
 export async function create(moduleData) {

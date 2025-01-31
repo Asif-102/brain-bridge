@@ -1,7 +1,7 @@
 "use server";
 
 import { Course } from "@/model/course-model";
-import { Module } from "@/model/module.model";
+import { Module } from "@/model/module-model";
 import { create } from "@/queries/modules";
 import dbConnect from "@/service/mongo";
 

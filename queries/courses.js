@@ -1,6 +1,6 @@
 import { Category } from "@/model/category-model";
 import { Course } from "@/model/course-model";
-import { Module } from "@/model/module.model";
+import { Module } from "@/model/module-model";
 import { Testimonial } from "@/model/testimonial-model";
 import { User } from "@/model/user-model";
 
