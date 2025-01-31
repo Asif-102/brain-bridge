@@ -1,9 +1,9 @@
-"use client"; // Ensure this is a client component if you're using hooks like useState
+"use client";
 
-import { updateCourse } from "@/app/actions/course"; // Assuming you have an action to update the course
+import { updateCourse } from "@/app/actions/course";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { PlusCircle } from "lucide-react";
+import { Pencil, PlusCircle } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -29,7 +29,7 @@ export const LearningForm = ({ initialData, courseId }) => {
 
   const onSubmit = async () => {
     try {
-      await updateCourse(courseId, { learning }); // Update the course with the new learning objectives
+      await updateCourse(courseId, { learning });
       toast.success("Learning objectives updated successfully");
       toggleEdit();
     } catch (error) {
@@ -42,7 +42,13 @@ export const LearningForm = ({ initialData, courseId }) => {
       <div className="font-medium flex items-center justify-between">
         Learning Objectives
         <Button onClick={toggleEdit} variant="ghost">
-          {isEditing ? "Cancel" : "Edit"}
+          {isEditing ? (
+            "Cancel"
+          ) : (
+            <>
+              <Pencil className="h-4 w-4 mr-2" /> Edit
+            </>
+          )}
         </Button>
       </div>
       {!isEditing && (
