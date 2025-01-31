@@ -61,6 +61,11 @@ export const VideoUrlForm = ({ initialData, courseId, lessonId }) => {
           splitted[0] * 3600 + splitted[1] * 60 + splitted[2] * 1;
         console.log(lessonId, payload);
         await updateLesson(lessonId, payload);
+        setState({
+          ...state,
+          url: values?.url,
+          duration: formatDuration(values?.duration),
+        });
         toast.success("Lesson updated");
         toggleEdit();
         router.refresh();
