@@ -9,7 +9,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 export const Logo = ({ className = "" }) => {
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
 
   const [mounted, setMounted] = useState(false);
 
@@ -22,7 +22,7 @@ export const Logo = ({ className = "" }) => {
   return (
     <Image
       className={cn("max-w-[100px]", className)}
-      src={theme === "dark" ? logo_white : logo_black}
+      src={resolvedTheme === "dark" ? logo_white : logo_black}
       alt="logo"
     />
   );
