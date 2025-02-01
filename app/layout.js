@@ -1,3 +1,4 @@
+import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
 import { Hind_Siliguri, Inter, Poppins } from "next/font/google";
@@ -27,7 +28,15 @@ export default function RootLayout({ children }) {
       <body
         className={cn(inter.className, poppins.variable, hindSiliguri.variable)}
       >
-        {children}
+        <ThemeProvider
+          attribute="class"
+          // defaultTheme="system"
+          defaultTheme="light"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
         <Toaster richColors position="top-center" />
       </body>
     </html>

@@ -19,6 +19,7 @@ import {
 import { signOut, useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { useEffect } from "react";
+import { ThemeSwitcher } from "./toggle-theme";
 import { Spinner } from "./ui/spinner";
 
 export function MainNav({ items, children }) {
@@ -77,6 +78,7 @@ export function MainNav({ items, children }) {
         )}
       </div>
       <nav className="flex items-center gap-3">
+        <ThemeSwitcher />
         {loginSession === false && <Spinner />}
         {loginSession === null && (
           <div className="items-center gap-3 hidden lg:flex">
