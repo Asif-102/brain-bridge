@@ -78,7 +78,7 @@ export const VideoUrlForm = ({ initialData, courseId, lessonId }) => {
   };
 
   return (
-    <div className="mt-6 border bg-slate-100 rounded-md p-4">
+    <div className="mt-6 border rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
         Video URL
         <Button variant="ghost" onClick={toggleEdit}>
