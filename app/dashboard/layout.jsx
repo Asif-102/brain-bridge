@@ -1,7 +1,16 @@
+import { auth } from "@/auth";
+import { getUserByEmail } from "@/queries/users";
+import { redirect } from "next/navigation";
 import { Navbar } from "./_components/navbar";
 import Sidebar from "./_components/sidebar";
 
-const DashboardLayout = ({ children }) => {
+const DashboardLayout = async ({ children }) => {
+  const session = await auth();
+  if (!session?.user) redirect("/login");
+
+  const instructor = await getUserByEmail(session.user.email);
+
+  if (instructor?.role !== "instructor") redirect("/login");
   return (
     <div className="h-full">
       <div className="h-[80px] lg:pl-56 fixed inset-y-0 w-full z-50">
