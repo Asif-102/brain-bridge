@@ -13,7 +13,7 @@ const DashboardLayout = async ({ children }) => {
   if (instructor?.role !== "instructor") redirect("/login");
   return (
     <div className="h-full">
-      <div className="h-[80px] lg:pl-56 fixed inset-y-0 w-full z-50">
+      <div className="h-[80px] lg:pl-56 bg-background/60 backdrop-blur-md fixed inset-y-0 w-full z-50">
         <Navbar />
       </div>
       <div className="hidden lg:flex h-full w-56 flex-col fixed inset-y-0 z-50">

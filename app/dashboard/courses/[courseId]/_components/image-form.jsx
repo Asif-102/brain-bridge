@@ -61,7 +61,7 @@ export const ImageForm = ({ initialData, courseId }) => {
   const toggleEdit = () => setIsEditing((current) => !current);
 
   return (
-    <div className="mt-6 border bg-gray-50 rounded-md p-4">
+    <div className="mt-6 border rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
         Course Image
         <Button variant="ghost" onClick={toggleEdit}>
@@ -82,7 +82,7 @@ export const ImageForm = ({ initialData, courseId }) => {
       </div>
       {!isEditing &&
         (!imageUrl ? (
-          <div className="flex items-center justify-center h-60 bg-slate-200 rounded-md">
+          <div className="flex items-center justify-center h-60  rounded-md">
             <ImageIcon className="h-10 w-10 text-slate-500" />
           </div>
         ) : (

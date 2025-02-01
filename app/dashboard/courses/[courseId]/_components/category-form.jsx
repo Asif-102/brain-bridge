@@ -59,7 +59,7 @@ export const CategoryForm = ({ initialData, courseId, options }) => {
   );
 
   return (
-    <div className="mt-6 border bg-gray-50 rounded-md p-4">
+    <div className="mt-6 border rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
         Course Category
         <Button variant="ghost" onClick={toggleEdit}>

@@ -44,7 +44,7 @@ export const LearningForm = ({ initialData, courseId }) => {
   };
 
   return (
-    <div className="mt-6 border bg-slate-100 rounded-md p-4">
+    <div className="mt-6 border rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
         Learning Objectives
         <Button onClick={toggleEdit} variant="ghost">
@@ -66,7 +66,7 @@ export const LearningForm = ({ initialData, courseId }) => {
           )}
           <ul className="list-disc pl-6">
             {learning.map((objective, index) => (
-              <li key={index} className="text-sm text-slate-700">
+              <li key={index} className="text-sm ">
                 {objective}
               </li>
             ))}
@@ -89,7 +89,7 @@ export const LearningForm = ({ initialData, courseId }) => {
             {learning.map((objective, index) => (
               <li
                 key={index}
-                className="flex items-center justify-between text-sm text-slate-700"
+                className="flex items-center justify-between text-sm"
               >
                 {objective}
                 <Button

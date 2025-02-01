@@ -80,7 +80,7 @@ export const UploadDropzone = (props) => {
       <div className="flex flex-col items-center gap-3 text-center !text-[#858585]">
         <CloudUpload size={48} className="text-gray-600" />
         <h4 className="!font-normal  !text-[#858585]">
-          <span className="font-semibold text-black underline">
+          <span className="font-semibold text-black dark:text-primary underline">
             Click to upload
           </span>{" "}
           or drag and drop <br />
