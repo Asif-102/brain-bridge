@@ -30,8 +30,6 @@ const EditCourse = async ({ params: { courseId } }) => {
     (a, b) => a.order - b.order
   );
 
-  // test
-
   return (
     <>
       {!course.active && (
