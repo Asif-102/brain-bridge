@@ -10,6 +10,7 @@ import {
 import Link from "next/link";
 import { MobileSidebar } from "./mobile-sidebar";
 
+import { ThemeSwitcher } from "@/components/toggle-theme";
 import { signOut } from "next-auth/react";
 import { useEffect, useState } from "react";
 
@@ -30,9 +31,10 @@ export const Navbar = () => {
   }, []);
 
   return (
-    <div className="p-4 border-b h-full flex items-center bg-white shadow-sm">
+    <div className="p-4 border-b h-full flex items-center ">
       <MobileSidebar />
-      <div className="flex items-center justify-end  w-full">
+      <div className="flex items-center justify-end gap-x-5 w-full">
+        <ThemeSwitcher />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <div className="cursor-pointer">
