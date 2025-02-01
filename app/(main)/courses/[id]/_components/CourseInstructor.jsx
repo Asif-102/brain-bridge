@@ -22,7 +22,7 @@ const CourseInstructor = async ({ course }) => {
   // console.log(courseDetailsByInstructor);
 
   return (
-    <div className="bg-gray-50 rounded-md p-8">
+    <div className=" rounded-md p-8">
       <div className="md:flex md:gap-x-5 mb-8">
         <div className="h-[310px] w-[270px] max-w-full  flex-none rounded mb-5 md:mb-0">
           <Image

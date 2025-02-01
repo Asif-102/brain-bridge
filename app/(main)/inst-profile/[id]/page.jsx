@@ -27,7 +27,7 @@ const InstructorProfile = async ({ params: { id } }) => {
       <div className="container grid grid-cols-12 lg:gap-x-8 gap-y-8">
         {/* Instructor Info */}
         <div className="col-span-12 lg:col-span-4 ">
-          <div className="bg-white rounded-2xl p-6 shadow">
+          <div className=" rounded-2xl p-6 shadow">
             <div className="mb-6">
               <div className="w-36 h-36 rounded-full  mb-5 mx-auto overflow-hidden">
                 <Image
