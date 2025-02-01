@@ -4,6 +4,7 @@ import { Course } from "@/model/course-model";
 import { Module } from "@/model/module-model";
 import { create } from "@/queries/modules";
 import dbConnect from "@/service/mongo";
+import mongoose from "mongoose";
 
 export async function createModule(data) {
   try {
@@ -62,6 +63,37 @@ export async function updateModule(moduleId, data) {
     await dbConnect();
 
     await Module.findByIdAndUpdate(moduleId, data);
+  } catch (err) {
+    throw new Error(err);
+  }
+}
+
+export async function changeModulePublishState(moduleId) {
+  console.log("changeModulePublishState", moduleId);
+  try {
+    await dbConnect();
+
+    const cmodule = await Module.findById(moduleId);
+    const res = await Module.findByIdAndUpdate(
+      moduleId,
+      { active: !cmodule.active },
+      { lean: true }
+    );
+    return res.active;
+  } catch (err) {
+    throw new Error(err);
+  }
+}
+
+export async function deleteModule(moduleId, courseId) {
+  console.log("delete", moduleId, courseId);
+  try {
+    await dbConnect();
+
+    const course = await Course.findById(courseId);
+    course.modules.pull(new mongoose.Types.ObjectId(moduleId));
+    course.save();
+    await Module.findByIdAndDelete(moduleId);
   } catch (err) {
     throw new Error(err);
   }

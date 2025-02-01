@@ -44,7 +44,7 @@ export const LearningForm = ({ initialData, courseId }) => {
   };
 
   return (
-    <div className="mt-6 border bg-gray-50 rounded-md p-4">
+    <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
         Learning Objectives
         <Button onClick={toggleEdit} variant="ghost">
@@ -82,7 +82,7 @@ export const LearningForm = ({ initialData, courseId }) => {
               onChange={(e) => setNewObjective(e.target.value)}
             />
             <Button variant="ghost" onClick={handleAddObjective}>
-              <PlusCircle className="h-4 w-4 mr-2" />
+              <PlusCircle className="h-4 w-4 mr-2" /> Add Objective
             </Button>
           </div>
           <ul className="list-disc pl-6">

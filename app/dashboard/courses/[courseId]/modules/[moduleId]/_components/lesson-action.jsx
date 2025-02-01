@@ -3,48 +3,47 @@
 import { Trash } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
 
-import { changeCoursePublishState, deleteCourse } from "@/app/actions/course";
+import { useState } from "react";
 
 import { toast } from "sonner";
 
-import { useRouter } from "next/navigation";
+import { changeLessonPublishState, deleteLesson } from "@/app/actions/lesson";
 
-export const CourseActions = ({ courseId, isActive }) => {
-  const router = useRouter();
+export const LessonActions = ({ lesson, moduleId, onDelete, lessonPath }) => {
   const [action, setAction] = useState(null);
-  const [published, setPublished] = useState(isActive);
+  const [published, setPublished] = useState(lesson?.active);
 
   async function handleSubmit(event) {
     event.preventDefault();
+    console.log(action);
 
     try {
       switch (action) {
         case "change-active": {
-          const activeState = await changeCoursePublishState(courseId);
+          const activeState = await changeLessonPublishState(
+            lesson.id,
+            lessonPath
+          );
           setPublished(!activeState);
-          toast.success("The course has been updated successfully.");
-          router.refresh();
+          toast.success("The lesson has been updated");
           break;
         }
 
         case "delete": {
           if (published) {
             toast.error(
-              "A published course can not be deleted. First unpublish it, then delete."
+              "A published lesson can not be deleted. First unpublish it, then delete."
             );
           } else {
-            await deleteCourse(courseId);
-            toast.success("The course has been deleted successfully");
-            router.push(`/dashboard/courses/`);
+            await deleteLesson(lesson.id, moduleId, lessonPath);
+            onDelete();
           }
-
           break;
         }
 
         default: {
-          throw new Error("Invalid Course Action");
+          throw new Error("Invalid Lesson Action");
         }
       }
     } catch (e) {
@@ -63,13 +62,7 @@ export const CourseActions = ({ courseId, isActive }) => {
           {published ? "Unpublish" : "Publish"}
         </Button>
 
-        <Button
-          type="submit"
-          name="action"
-          value="delete"
-          size="sm"
-          onClick={() => setAction("delete")}
-        >
+        <Button size="sm" onClick={() => setAction("delete")}>
           <Trash className="h-4 w-4" />
         </Button>
       </div>

@@ -5,20 +5,22 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { ArrowLeft, Eye, LayoutDashboard, Video } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { CourseActions } from "../../../_components/course-action";
 import { LessonAccessForm } from "./lesson-access-form";
+import { LessonActions } from "./lesson-action";
 import { LessonDescriptionForm } from "./lesson-description-form";
 import { LessonTitleForm } from "./lesson-title-form";
 import { VideoUrlForm } from "./video-url-form";
 export const LessonModal = ({ open, courseId, moduleId, lesson }) => {
   const router = useRouter();
+
+  const lessonPath = `/dashboard/courses/${courseId}/modules/${moduleId}`;
+
+  function postDelete() {
+    router.push(lessonPath);
+  }
+
   return (
-    <Dialog
-      open={open}
-      onOpenChange={() =>
-        router.push(`/dashboard/courses/${courseId}/modules/${moduleId}`)
-      }
-    >
+    <Dialog open={open} onOpenChange={() => router.push(lessonPath)}>
       {/* <DialogTrigger>Open</DialogTrigger> */}
       <DialogContent
         className="sm:max-w-[1200px] w-[96%] overflow-y-auto max-h-[90vh]"
@@ -37,7 +39,12 @@ export const LessonModal = ({ open, courseId, moduleId, lesson }) => {
                 Back to course setup
               </Link>
               <div className="flex items-center justify-end">
-                <CourseActions />
+                <LessonActions
+                  lesson={lesson}
+                  moduleId={moduleId}
+                  onDelete={postDelete}
+                  lessonPath={lessonPath}
+                />
               </div>
             </div>
           </div>
