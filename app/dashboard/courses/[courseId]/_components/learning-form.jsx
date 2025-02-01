@@ -12,6 +12,8 @@ export const LearningForm = ({ initialData, courseId }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [newObjective, setNewObjective] = useState("");
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const toggleEdit = () => setIsEditing((prev) => !prev);
 
   const handleAddObjective = () => {
@@ -29,16 +31,20 @@ export const LearningForm = ({ initialData, courseId }) => {
 
   const onSubmit = async () => {
     try {
+      setIsSubmitting(true);
+
       await updateCourse(courseId, { learning });
       toast.success("Learning objectives updated successfully");
       toggleEdit();
     } catch (error) {
       toast.error("Failed to update learning objectives");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="mt-6 border bg-slate-100 rounded-md p-4">
+    <div className="mt-6 border bg-gray-50 rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
         Learning Objectives
         <Button onClick={toggleEdit} variant="ghost">
@@ -46,7 +52,7 @@ export const LearningForm = ({ initialData, courseId }) => {
             "Cancel"
           ) : (
             <>
-              <Pencil className="h-4 w-4 mr-2" /> Edit
+              <Pencil className="h-4 w-4 mr-2" /> Edit Learning
             </>
           )}
         </Button>
@@ -96,7 +102,7 @@ export const LearningForm = ({ initialData, courseId }) => {
               </li>
             ))}
           </ul>
-          <Button onClick={onSubmit} className="mt-4">
+          <Button onClick={onSubmit} disabled={isSubmitting} className="mt-4">
             Save
           </Button>
         </div>
