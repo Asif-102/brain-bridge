@@ -6,8 +6,18 @@ import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
 import Image from "next/image";
 
+import { useEffect, useState } from "react";
+
 export const Logo = ({ className = "" }) => {
   const { theme } = useTheme();
+
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true); // Set mounted to true once the component has mounted
+  }, []);
+
+  if (!mounted) return null; // Return nothing before the component is mounted
 
   return (
     <Image
