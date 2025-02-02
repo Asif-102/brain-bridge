@@ -9,6 +9,7 @@ import { toast } from "sonner";
 
 // import { deleteQuiz } from "@/app/actions/quiz"
 
+import { deleteQuiz } from "@/app/actions/quiz";
 import { useRouter } from "next/navigation";
 
 export const QuizCardActions = ({ quiz, quizSetId }) => {
@@ -24,7 +25,7 @@ export const QuizCardActions = ({ quiz, quizSetId }) => {
           break;
         }
         case "delete-quiz": {
-          // await deleteQuiz(quiz.id, quizSetId)
+          await deleteQuiz(quiz.id, quizSetId);
           toast.success(`The quiz has been deleted`);
           router.refresh();
           break;
