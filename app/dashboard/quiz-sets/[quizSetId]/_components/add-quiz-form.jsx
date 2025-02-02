@@ -85,7 +85,6 @@ export const AddQuizForm = ({ quizSetId }) => {
   const { editQuiz, setEditQuiz } = useQuizEdit();
 
   useEffect(() => {
-    console.log("🚀 ~ AddQuizForm ~ editQuiz:", editQuiz);
     if (editQuiz) {
       form.reset({
         title: editQuiz.title,
