@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-import { addQuizToQuizSet } from "@/app/actions/quiz";
+import { addQuizToQuizSet, updateQuiz } from "@/app/actions/quiz";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -157,7 +157,14 @@ export const AddQuizForm = ({ quizSetId }) => {
 
       if (isOneCorrecrMarked) {
         // Call server action
-        await addQuizToQuizSet(quizSetId, values);
+        if (editQuiz?._id) {
+          await updateQuiz(editQuiz?._id, values);
+          setEditQuiz(null);
+          toast.success("Quiz updated");
+        } else {
+          await addQuizToQuizSet(quizSetId, values);
+          toast.success("Quiz added");
+        }
         // Reset the form
         form.reset({
           title: "",
@@ -182,7 +189,6 @@ export const AddQuizForm = ({ quizSetId }) => {
 
         //toggleEdit();
         router.refresh();
-        toast.success("Quiz added");
       } else {
         toast.error("You must mark minimum one correct answer.");
       }
@@ -405,7 +411,7 @@ export const AddQuizForm = ({ quizSetId }) => {
             {/* --------------- OPTION D ENDS -------- */}
             <div className="flex items-center justify-end gap-x-2">
               <Button disabled={isSubmitting} type="submit">
-                Save
+                {editQuiz?._id ? "Update" : "Save"}
               </Button>
             </div>
           </form>

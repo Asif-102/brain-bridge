@@ -1,6 +1,7 @@
 "use server";
 
 import { getSlug } from "@/lib/convertData";
+import { TransformedQuizData } from "@/lib/quiz-helper";
 import { Quizset } from "@/model/quizset-model";
 import { Quiz } from "@/model/quizzes-model";
 import { createQuiz } from "@/queries/quizzes";
@@ -21,29 +22,7 @@ export async function addQuizToQuizSet(quizSetId, quizData) {
   try {
     console.log(quizSetId, quizData);
 
-    const transformedQuizData = {};
-
-    transformedQuizData["title"] = quizData["title"];
-    transformedQuizData["description"] = quizData["description"];
-    transformedQuizData["slug"] = getSlug(quizData["title"]);
-    transformedQuizData["options"] = [
-      {
-        text: quizData.optionA.label,
-        is_correct: quizData.optionA.isTrue,
-      },
-      {
-        text: quizData.optionB.label,
-        is_correct: quizData.optionB.isTrue,
-      },
-      {
-        text: quizData.optionC.label,
-        is_correct: quizData.optionC.isTrue,
-      },
-      {
-        text: quizData.optionD.label,
-        is_correct: quizData.optionD.isTrue,
-      },
-    ];
+    const transformedQuizData = TransformedQuizData(quizData);
 
     console.log(transformedQuizData);
     const createdQuizId = await createQuiz(transformedQuizData);
@@ -80,6 +59,18 @@ export async function deleteQuiz(quizId, quizSetId) {
     quizSet.quizIds.pull(new mongoose.Types.ObjectId(quizId));
     await Quiz.findByIdAndDelete(quizId);
     quizSet.save();
+  } catch (e) {
+    throw new Error(e);
+  }
+}
+
+export async function updateQuiz(quizId, dataToUpdate) {
+  try {
+    const transformedQuizData = TransformedQuizData(dataToUpdate);
+
+    await dbConnect();
+
+    await Quiz.findByIdAndUpdate(quizId, transformedQuizData);
   } catch (e) {
     throw new Error(e);
   }
