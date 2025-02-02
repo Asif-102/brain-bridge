@@ -6,6 +6,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -15,13 +17,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Pencil } from "lucide-react";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { PlusCircle } from "lucide-react";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   title: z
@@ -154,7 +151,7 @@ export const AddQuizForm = ({ setQuizes }) => {
   };
 
   return (
-    <div className="mt-6 border bg-gray-50 rounded-md p-4">
+    <div className="mt-6 border rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
         Add New Quiz
       </div>

@@ -1,18 +1,12 @@
 "use client";
 import AlertBanner from "@/components/alert-banner";
-import { IconBadge } from "@/components/icon-badge";
-import { LayoutDashboard } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { Circle, CircleCheck, Pencil, Trash } from "lucide-react";
+import { useState } from "react";
+import { AddQuizForm } from "./_components/add-quiz-form";
 import { QuizSetAction } from "./_components/quiz-set-action";
 import { TitleForm } from "./_components/title-form";
-import { AddQuizForm } from "./_components/add-quiz-form";
-import { cn } from "@/lib/utils";
-import { useState } from "react";
-import { Pencil } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Delete } from "lucide-react";
-import { Trash } from "lucide-react";
-import { CircleCheck } from "lucide-react";
-import { Circle } from "lucide-react";
 const initialQuizes = [
   {
     id: 1,
@@ -85,7 +79,7 @@ const EditQuizSet = () => {
                 return (
                   <div
                     key={quiz.id}
-                    className=" bg-gray-50 shadow-md p-4 lg:p-6 rounded-md border"
+                    className="  shadow-md p-4 lg:p-6 rounded-md border"
                   >
                     <h2 className="mb-3">{quiz.title}</h2>
 

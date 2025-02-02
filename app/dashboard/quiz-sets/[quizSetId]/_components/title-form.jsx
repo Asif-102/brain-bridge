@@ -5,6 +5,7 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -13,10 +14,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { Pencil } from "lucide-react";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const formSchema = z.object({
   title: z.string().min(1, {
@@ -47,7 +47,7 @@ export const TitleForm = ({ initialData = {} }) => {
   };
 
   return (
-    <div className="mt-6 border bg-gray-50 rounded-md p-4">
+    <div className="mt-6 border rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
         Quiz set title
         <Button variant="ghost" onClick={toggleEdit}>
