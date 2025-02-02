@@ -10,22 +10,26 @@ import { toast } from "sonner";
 // import { deleteQuiz } from "@/app/actions/quiz"
 
 import { deleteQuiz } from "@/app/actions/quiz";
+import useQuizEdit from "@/hooks/useQuizEdit";
 import { useRouter } from "next/navigation";
 
 export const QuizCardActions = ({ quiz, quizSetId }) => {
   const [action, setAction] = useState(null);
   const router = useRouter();
 
+  const { editQuiz, setEditQuiz } = useQuizEdit();
+
   async function handleSubmit(event) {
     event.preventDefault();
     try {
       switch (action) {
         case "edit-quiz": {
-          console.log(quiz.id, quizSetId);
+          console.log(quiz._id, quizSetId);
+          setEditQuiz(quiz);
           break;
         }
         case "delete-quiz": {
-          await deleteQuiz(quiz.id, quizSetId);
+          await deleteQuiz(quiz._id, quizSetId);
           toast.success(`The quiz has been deleted`);
           router.refresh();
           break;

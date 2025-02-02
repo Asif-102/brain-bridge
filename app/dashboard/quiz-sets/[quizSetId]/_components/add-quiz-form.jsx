@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import * as z from "zod";
@@ -19,7 +20,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import useQuizEdit from "@/hooks/useQuizEdit";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 const formSchema = z.object({
   title: z
@@ -79,6 +82,34 @@ const formSchema = z.object({
 });
 
 export const AddQuizForm = ({ quizSetId }) => {
+  const { editQuiz, setEditQuiz } = useQuizEdit();
+
+  useEffect(() => {
+    console.log("🚀 ~ AddQuizForm ~ editQuiz:", editQuiz);
+    if (editQuiz) {
+      form.reset({
+        title: editQuiz.title,
+        description: editQuiz.description,
+        optionA: {
+          label: editQuiz.options[0].text,
+          isTrue: editQuiz.options[0].is_correct,
+        },
+        optionB: {
+          label: editQuiz.options[1].text,
+          isTrue: editQuiz.options[1].is_correct,
+        },
+        optionC: {
+          label: editQuiz.options[2].text,
+          isTrue: editQuiz.options[2].is_correct,
+        },
+        optionD: {
+          label: editQuiz.options[3].text,
+          isTrue: editQuiz.options[3].is_correct,
+        },
+      });
+    }
+  }, [editQuiz]);
+
   const router = useRouter();
 
   const form = useForm({
