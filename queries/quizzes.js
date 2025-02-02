@@ -1,20 +1,19 @@
 import { replaceMongoIdInArray } from "@/lib/convertData";
 import { Quizset } from "@/model/quizset-model";
-import { Quiz } from "@/model/quizzes-model";
 import dbConnect from "@/service/mongo";
 
 export async function getAllQuizSets(excludeUnPublished) {
   try {
     await dbConnect();
 
-    const quizSets = await Quizset.find()
-      .populate({
-        path: "quizIds",
-        model: Quiz,
-      })
-      .lean();
+    let quizSets = [];
+    if (excludeUnPublished) {
+      quizSets = await Quizset.find({ active: true }).lean();
+    } else {
+      quizSets = await Quizset.find().lean();
+    }
     return replaceMongoIdInArray(quizSets);
-  } catch (err) {
-    throw new Error(err);
+  } catch (e) {
+    throw new Error(e);
   }
 }
