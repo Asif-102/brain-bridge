@@ -7,7 +7,6 @@ import { Quiz } from "@/model/quizzes-model";
 import { createQuiz } from "@/queries/quizzes";
 import dbConnect from "@/service/mongo";
 import mongoose from "mongoose";
-import { revalidatePath } from "next/cache";
 
 export async function updateQuizSet(quizset, dataToUpdate) {
   try {
@@ -105,7 +104,6 @@ export async function deleteQuizSetWithQuizzes(quizSetId) {
     await Quiz.deleteMany({ _id: { $in: quizSet.quizIds } });
 
     await Quizset.findByIdAndDelete(quizSetId);
-    revalidatePath("/dashboard/quiz-sets");
   } catch (err) {
     throw new Error(err);
   }
