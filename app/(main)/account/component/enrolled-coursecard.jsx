@@ -1,11 +1,15 @@
-//import { CourseProgress } from "@/components/course-progress";
+import { CourseProgress } from "@/components/course-progress";
 import { Badge } from "@/components/ui/badge";
-import { getCategoryDetails } from "@/queries/categories";
-import { getAReport } from "@/queries/reports";
 import { BookOpen } from "lucide-react";
 import Image from "next/image";
 
-export default async function EnrolledCourseCard({ enrollment }) {
+import { getCategoryDetails } from "@/queries/categories";
+
+import { getAReport } from "@/queries/reports";
+
+import { getCourseDetails } from "@/queries/courses";
+
+const EnrolledCourseCard = async ({ enrollment }) => {
   const courseCategory = await getCategoryDetails(
     enrollment?.course?.category?._id
   );
@@ -16,18 +20,27 @@ export default async function EnrolledCourseCard({ enrollment }) {
   };
 
   const report = await getAReport(filter);
-  //   console.log("🚀 ~ EnrolledCourseCard ~ report:", report);
+
+  // Get Total Module Number
+  const courseDetails = await getCourseDetails(enrollment?.course?._id);
+  const totalModuleCount = courseDetails?.modules?.length;
 
   // Total Completed Modules
-  const totalCompletedModules = report?.totalCompletedModeules?.length;
+  const totalCompletedModules = report?.totalCompletedModeules
+    ? report?.totalCompletedModeules?.length
+    : 0;
+
+  // Total Progress
+  const totalProgress = totalModuleCount
+    ? (totalCompletedModules / totalModuleCount) * 100
+    : 0;
 
   // Get all Quizzes and Assignments
   const quizzes = report?.quizAssessment?.assessments;
-  const totalQuizzes = quizzes?.length;
+  const totalQuizzes = quizzes?.length ?? 0;
 
   // Find attempted quizzes
-  const quizzesTaken = quizzes.filter((q) => q.attempted);
-  console.log(quizzesTaken);
+  const quizzesTaken = quizzes ? quizzes.filter((q) => q.attempted) : [];
 
   // Find how many quizzes answered correct
 
@@ -40,11 +53,12 @@ export default async function EnrolledCourseCard({ enrollment }) {
     })
     .filter((elem) => elem.length > 0)
     .flat();
-  //   console.log("🚀 ~ totalCorrect ~ totalCorrect:", totalCorrect);
+
+  //console.log({totalCorrect});
 
   const marksFromQuizzes = totalCorrect?.length * 5;
 
-  const otherMarks = report?.quizAssessment?.otherMarks;
+  const otherMarks = report?.quizAssessment?.otherMarks ?? 0;
 
   const totalMarks = marksFromQuizzes + otherMarks;
 
@@ -87,7 +101,7 @@ export default async function EnrolledCourseCard({ enrollment }) {
             </p>
 
             <div className="text-md md:text-sm font-medium text-slate-700">
-              Quiz taken <Badge variant="success">{quizzesTaken.length}</Badge>
+              Quiz taken <Badge variant="success">{quizzesTaken?.length}</Badge>
             </div>
           </div>
           <div className="flex items-center justify-between mt-2">
@@ -119,12 +133,14 @@ export default async function EnrolledCourseCard({ enrollment }) {
           </p>
         </div>
 
-        {/*<CourseProgress
-						size="sm"
-						value={80}
-						variant={110 === 100 ? "success" : ""}
-	/>*/}
+        <CourseProgress
+          size="sm"
+          value={totalProgress}
+          variant={110 === 100 ? "success" : ""}
+        />
       </div>
     </div>
   );
-}
+};
+
+export default EnrolledCourseCard;
