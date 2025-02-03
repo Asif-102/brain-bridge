@@ -9,6 +9,7 @@ import {
   replaceMongoIdInObject,
 } from "@/lib/convertData";
 import { groupBy } from "@/lib/customFunction";
+import { Lesson } from "@/model/lesson-model";
 import dbConnect from "@/service/mongo";
 import { getEnrollmentsForCourse } from "./enrollments";
 import { getTestimonialsForCourse } from "./testimonials";
@@ -71,6 +72,10 @@ export async function getCourseDetails(id) {
     .populate({
       path: "modules",
       model: Module,
+      populate: {
+        path: "lessonIds",
+        model: Lesson,
+      },
     })
     .lean();
 
