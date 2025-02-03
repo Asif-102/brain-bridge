@@ -7,6 +7,7 @@ import { Quiz } from "@/model/quizzes-model";
 import { createQuiz } from "@/queries/quizzes";
 import dbConnect from "@/service/mongo";
 import mongoose from "mongoose";
+import { revalidatePath } from "next/cache";
 
 export async function updateQuizSet(quizset, dataToUpdate) {
   try {
@@ -73,5 +74,39 @@ export async function updateQuiz(quizId, dataToUpdate) {
     await Quiz.findByIdAndUpdate(quizId, transformedQuizData);
   } catch (e) {
     throw new Error(e);
+  }
+}
+
+export async function changeQuizSetPublishState(quizSetId) {
+  try {
+    await dbConnect();
+
+    const quizSet = await Quizset.findById(quizSetId);
+    const res = await Quizset.findByIdAndUpdate(
+      quizSetId,
+      { active: !quizSet.active },
+      { lean: true }
+    );
+    return res.active;
+  } catch (err) {
+    throw new Error(err);
+  }
+}
+
+export async function deleteQuizSetWithQuizzes(quizSetId) {
+  try {
+    await dbConnect();
+
+    const quizSet = await Quizset.findById(quizSetId);
+    if (!quizSet) {
+      throw new Error("Quizset not found");
+    }
+
+    await Quiz.deleteMany({ _id: { $in: quizSet.quizIds } });
+
+    await Quizset.findByIdAndDelete(quizSetId);
+    revalidatePath("/dashboard/quiz-sets");
+  } catch (err) {
+    throw new Error(err);
   }
 }

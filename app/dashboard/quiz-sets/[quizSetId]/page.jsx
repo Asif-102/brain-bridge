@@ -81,7 +81,7 @@ const EditQuizSet = async ({ params: { quizSetId } }) => {
       <div className="p-6">
         <QuizEditProvider>
           <div className="flex items-center justify-end">
-            <QuizSetAction />
+            <QuizSetAction quizSetId={quizSetId} isActive={quizSet?.active} />
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2  gap-6 mt-16">
             {/* Quiz List */}
