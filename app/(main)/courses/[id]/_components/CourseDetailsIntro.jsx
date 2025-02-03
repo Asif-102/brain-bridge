@@ -8,11 +8,10 @@ import { cn } from "@/lib/utils";
 import { hasEnrollmentForCourse } from "@/queries/enrollments";
 import { getUserByEmail } from "@/queries/users";
 import { SessionProvider } from "next-auth/react";
-import { redirect } from "next/navigation";
 
 export default async function CourseDetailsIntro({ course }) {
   const session = await auth();
-  if (!session?.user) redirect(`/login?redirect=/courses/${course?.id}`);
+
   const loggedInUser = await getUserByEmail(session?.user?.email);
 
   const hasEnrollment = await hasEnrollmentForCourse(
@@ -40,7 +39,7 @@ export default async function CourseDetailsIntro({ course }) {
                 <SessionProvider>
                   {hasEnrollment ? (
                     <Link
-                      href=""
+                      href={`/courses/${course?.id}/lesson`}
                       className={cn(buttonVariants({ size: "lg" }))}
                     >
                       Access Course

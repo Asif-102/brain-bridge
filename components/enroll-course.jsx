@@ -53,7 +53,7 @@ export function EnrollCourse({ asLink, courseId }) {
         {asLink ? (
           hasEnrollment ? (
             <Link
-              href=""
+              href={`/courses/${courseId}/lesson`}
               variant="ghost"
               className="text-xs text-sky-700 h-7 gap-1 flex items-center"
             >
