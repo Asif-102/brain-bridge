@@ -3,6 +3,7 @@ import { IconBadge } from "@/components/icon-badge";
 import { replaceMongoIdInArray } from "@/lib/convertData";
 import { getCategories } from "@/queries/categories";
 import { getCourseDetails } from "@/queries/courses";
+import { getAllQuizSets } from "@/queries/quizzes";
 import { CircleDollarSign, LayoutDashboard, ListChecks } from "lucide-react";
 import { CategoryForm } from "./_components/category-form";
 import { CourseActions } from "./_components/course-action";
@@ -29,6 +30,17 @@ const EditCourse = async ({ params: { courseId } }) => {
   const modules = replaceMongoIdInArray(course?.modules).sort(
     (a, b) => a.order - b.order
   );
+
+  const allQuizSets = await getAllQuizSets(true);
+  let mappedQuizSet = [];
+  if (allQuizSets && allQuizSets.length > 0) {
+    mappedQuizSet = allQuizSets.map((quizSet) => {
+      return {
+        value: quizSet.id,
+        label: quizSet.title,
+      };
+    });
+  }
 
   return (
     <>
@@ -76,7 +88,11 @@ const EditCourse = async ({ params: { courseId } }) => {
               options={mappedCategories}
             />
 
-            <QuizSetForm initialData={{}} courseId={courseId} />
+            <QuizSetForm
+              initialData={{ quizSetId: course?.quizSet?._id.toString() }}
+              courseId={courseId}
+              options={mappedQuizSet}
+            />
             <LearningForm
               initialData={{
                 learning: course?.learning,
