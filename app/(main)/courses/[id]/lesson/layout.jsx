@@ -28,7 +28,7 @@ const CourseLayout = async ({ children, params: { id } }) => {
         </div>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-12">
-        <div className="hidden lg:flex h-full w-96 flex-col inset-y-0 z-50">
+        <div className="hidden lg:flex h-full w-96 flex-col inset-y-0 z-10">
           {/* sidebar starts */}
           <CourseSidebar courseId={id} />
           {/* sidebar ends */}
