@@ -3,6 +3,7 @@ import { CourseProgress } from "@/components/course-progress";
 import { getLoggedInUser } from "@/lib/loggedin-user";
 import { Watch } from "@/model/watch-model";
 import { getCourseDetails } from "@/queries/courses";
+import { getAReport } from "@/queries/reports";
 import dbConnect from "@/service/mongo";
 import { DownloadCertificate } from "./download-certificate";
 import { GiveReview } from "./give-review";
@@ -11,6 +12,19 @@ import { SidebarModules } from "./sidebar-modules";
 export const CourseSidebar = async ({ courseId }) => {
   const course = await getCourseDetails(courseId);
   const loggedinUser = await getLoggedInUser();
+
+  const report = await getAReport({
+    course: courseId,
+    student: loggedinUser.id,
+  });
+
+  const totalCompletedModules = report?.totalCompletedModeules
+    ? report?.totalCompletedModeules.length
+    : 0;
+  const totalModules = course?.modules ? course.modules.length : 0;
+
+  const totalProgress =
+    totalModules > 0 ? (totalCompletedModules / totalModules) * 100 : 0;
 
   await dbConnect();
 
@@ -46,7 +60,7 @@ export const CourseSidebar = async ({ courseId }) => {
         <div className="p-8 flex flex-col border-b">
           <h1 className="font-semibold">{course?.title}</h1>
           <div className="mt-10">
-            <CourseProgress variant="success" value={80} />
+            <CourseProgress variant="success" value={totalProgress} />
           </div>
         </div>
 
