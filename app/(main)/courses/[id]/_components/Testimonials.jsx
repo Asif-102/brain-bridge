@@ -34,7 +34,10 @@ export default function Testimonials({ testimonials }) {
                     <div className="flex items-center gap-4">
                       <Image
                         alt={testimonial?.user?.first_name}
-                        src={testimonial?.user?.profilePicture}
+                        src={
+                          testimonial?.user?.profilePicture ??
+                          "https://i.pravatar.cc"
+                        }
                         width={56}
                         height={56}
                         className="size-14 rounded-full object-cover"
