@@ -3,7 +3,7 @@
 
 import { UploadDropzone } from "@/components/file-upload";
 import { Button } from "@/components/ui/button";
-import { ALLOW_IMAGE_TYPES, IMAGE_SIZE_LIMIT } from "@/lib/validation";
+import { compressImage } from "@/lib/image-compression";
 import { ImageIcon, Pencil, PlusCircle } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -18,22 +18,24 @@ export const ImageForm = ({ initialData, courseId }) => {
 
   useEffect(() => {
     if (file) {
-      uploadFile();
+      handleImageUpload(file);
     }
   }, [file]);
 
-  const uploadFile = async () => {
+  const handleImageUpload = async (selectedFile) => {
     try {
-      if (!ALLOW_IMAGE_TYPES.includes(file[0].type)) {
-        throw new Error("Only image files (JPEG, PNG, GIF, WEBP) are allowed.");
-      }
+      const compressedFile = await compressImage(selectedFile[0]); // Use the imported function
+      await uploadFile(compressedFile);
+    } catch (error) {
+      console.error("Error processing image:", error);
+      toast.error(error.message);
+    }
+  };
 
-      if (file[0].size > IMAGE_SIZE_LIMIT) {
-        throw new Error("Image size must be less than 1 MB.");
-      }
-
+  const uploadFile = async (compressedFile) => {
+    try {
       const formData = new FormData();
-      formData.append("files", file[0]);
+      formData.append("files", compressedFile);
       formData.append("courseId", courseId);
 
       const response = await fetch("/api/upload", {
@@ -82,7 +84,7 @@ export const ImageForm = ({ initialData, courseId }) => {
       </div>
       {!isEditing &&
         (!imageUrl ? (
-          <div className="flex items-center justify-center h-60  rounded-md">
+          <div className="flex items-center justify-center h-60 rounded-md">
             <ImageIcon className="h-10 w-10 text-slate-500" />
           </div>
         ) : (
