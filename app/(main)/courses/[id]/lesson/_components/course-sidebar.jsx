@@ -4,6 +4,7 @@ import { getLoggedInUser } from "@/lib/loggedin-user";
 import { Watch } from "@/model/watch-model";
 import { getCourseDetails } from "@/queries/courses";
 import { getAReport } from "@/queries/reports";
+import { getCourseTestimonialByUser } from "@/queries/testimonials";
 import dbConnect from "@/service/mongo";
 import { DownloadCertificate } from "./download-certificate";
 import { GiveReview } from "./give-review";
@@ -54,6 +55,11 @@ export const CourseSidebar = async ({ courseId }) => {
 
   console.log(updatedModules);
 
+  const testinomial = await getCourseTestimonialByUser(
+    courseId,
+    loggedinUser?.id
+  );
+
   return (
     <>
       <div className="h-full border-r flex flex-col overflow-y-auto shadow-sm">
@@ -71,7 +77,7 @@ export const CourseSidebar = async ({ courseId }) => {
             courseId={courseId}
             totalProgress={totalProgress}
           />
-          <GiveReview courseId={courseId} />
+          <GiveReview courseId={courseId} testinomial={testinomial} />
         </div>
       </div>
     </>

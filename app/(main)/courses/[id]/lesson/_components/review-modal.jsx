@@ -1,6 +1,10 @@
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import * as z from "zod";
 // import axios from "axios";
+import {
+  createTestimonial,
+  updateTestimonial,
+} from "@/app/actions/testimonial";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -14,6 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 const formSchema = z.object({
@@ -25,16 +30,18 @@ const formSchema = z.object({
     .max(5, {
       message: "Rating can be 1 to 5",
     }),
-  review: z.string().min(1, {
+  content: z.string().min(1, {
     message: "Description is required!",
   }),
 });
-export const ReviewModal = ({ open, setOpen }) => {
+export const ReviewModal = ({ open, setOpen, courseId, testinomial }) => {
+  const router = useRouter();
+
   const form = useForm({
     resolver: zodResolver(formSchema),
-    defaultValues: {
+    defaultValues: testinomial ?? {
       rating: "",
-      review: "",
+      content: "",
     },
   });
 
@@ -42,7 +49,28 @@ export const ReviewModal = ({ open, setOpen }) => {
 
   const onSubmit = async (values) => {
     try {
-      toast.success("Review added");
+      const formData = new FormData();
+
+      formData.append("content", values.content);
+      formData.append("rating", values.rating);
+      formData.append("courseId", courseId);
+
+      if (testinomial) {
+        const updateData = {
+          ...testinomial,
+          content: values.content,
+          rating: values.rating,
+        };
+        delete updateData.id;
+        const testimonialId = testinomial.id;
+
+        await updateTestimonial(testimonialId, updateData);
+        toast.success("Review updated");
+      } else {
+        await createTestimonial(formData);
+        toast.success("Review added");
+      }
+      router.refresh();
       setOpen(false);
     } catch (error) {
       toast.error("Something went wrong");
@@ -87,7 +115,7 @@ export const ReviewModal = ({ open, setOpen }) => {
             {/* review */}
             <FormField
               control={form.control}
-              name="review"
+              name="content"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Your Review</FormLabel>
@@ -106,7 +134,11 @@ export const ReviewModal = ({ open, setOpen }) => {
               )}
             />
             <div className="flex items-center gap-x-2">
-              <Button variant="outline" type="button">
+              <Button
+                variant="outline"
+                type="button"
+                onClick={() => setOpen(false)}
+              >
                 Cancel
               </Button>
 

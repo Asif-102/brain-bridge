@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { ReviewModal } from "./review-modal";
 
-export const GiveReview = () => {
+export const GiveReview = ({ courseId, testinomial }) => {
+  console.log("🚀 ~ GiveReview ~ testinomial:", testinomial);
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   return (
     <>
@@ -13,9 +14,16 @@ export const GiveReview = () => {
         variant="outline"
         className="w-full mt-6"
       >
-        Give Review
+        {testinomial ? "Update Review" : "Give Review"}
       </Button>
-      <ReviewModal open={isReviewModalOpen} setOpen={setIsReviewModalOpen} />
+      {isReviewModalOpen && (
+        <ReviewModal
+          open={isReviewModalOpen}
+          setOpen={setIsReviewModalOpen}
+          courseId={courseId}
+          testinomial={testinomial}
+        />
+      )}
     </>
   );
 };
