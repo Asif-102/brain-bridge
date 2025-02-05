@@ -1,13 +1,15 @@
-import { replaceMongoIdInArray } from "@/lib/convertData";
 import { getCourseDetails } from "@/queries/courses";
 import CourseDetails from "./_components/CourseDetails";
 import CourseDetailsIntro from "./_components/CourseDetailsIntro";
 // import RelatedCourses from "./_components/RelatedCourses";
+import { getTestimonialsForCourse } from "@/queries/testimonials";
 import Testimonials from "./_components/Testimonials";
 
 const SingleCoursePage = async ({ params: { id } }) => {
   const course = await getCourseDetails(id);
   // console.log("🚀 ~ SingleCoursePage ~ course:", course);
+
+  const testimonials = await getTestimonialsForCourse(id);
 
   return (
     <>
@@ -15,11 +17,7 @@ const SingleCoursePage = async ({ params: { id } }) => {
 
       <CourseDetails course={course} />
 
-      {course?.testimonials && (
-        <Testimonials
-          testimonials={replaceMongoIdInArray(course?.testimonials)}
-        />
-      )}
+      {testimonials?.length > 0 && <Testimonials testimonials={testimonials} />}
 
       {/* <RelatedCourses /> */}
     </>

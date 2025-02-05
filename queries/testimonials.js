@@ -4,12 +4,18 @@ import {
   replaceMongoIdInArray,
   replaceMongoIdInObject,
 } from "@/lib/convertData";
+import { User } from "@/model/user-model";
 import dbConnect from "@/service/mongo";
 
 export async function getTestimonialsForCourse(courseId) {
   await dbConnect();
 
-  const testimonials = await Testimonial.find({ courseId: courseId }).lean();
+  const testimonials = await Testimonial.find({ courseId: courseId })
+    .populate({
+      path: "user",
+      model: User,
+    })
+    .lean();
   return replaceMongoIdInArray(testimonials);
 }
 
