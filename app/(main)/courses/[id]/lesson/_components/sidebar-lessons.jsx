@@ -3,9 +3,9 @@ import { replaceMongoIdInArray } from "@/lib/convertData";
 import { SidebarLessonItem } from "./sidebar-lesson-items";
 
 export const SidebarLessons = ({ courseId, lessons, module }) => {
-  const allLessons = replaceMongoIdInArray(lessons).toSorted(
-    (a, b) => a.order - b.order
-  );
+  const allLessons = replaceMongoIdInArray(lessons)
+    .slice()
+    .sort((a, b) => a.order - b.order);
   return (
     <AccordionContent>
       <div className="flex flex-col w-full gap-3">

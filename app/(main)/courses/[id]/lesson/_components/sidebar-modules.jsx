@@ -13,9 +13,9 @@ import { useSearchParams } from "next/navigation";
 
 export const SidebarModules = ({ courseId, modules }) => {
   const searchParams = useSearchParams();
-  const allModules = replaceMongoIdInArray(modules).toSorted(
-    (a, b) => a.order - b.order
-  );
+  const allModules = replaceMongoIdInArray(modules)
+    .slice()
+    .sort((a, b) => a.order - b.order);
 
   const query = searchParams.get("name");
 
