@@ -84,6 +84,7 @@ export const CourseSidebar = async ({ courseId }) => {
               courseId={courseId}
               quizSet={quizSet}
               isTaken={isQuizComplete}
+              quizAssessment={report?.quizAssessment}
             />
           )}
         </div>

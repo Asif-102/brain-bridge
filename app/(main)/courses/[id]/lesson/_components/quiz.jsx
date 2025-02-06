@@ -6,7 +6,7 @@ import { useState } from "react";
 
 import QuizModal from "./quiz-modal";
 
-export function Quiz({ courseId, quizSet, isTaken }) {
+export function Quiz({ courseId, quizSet, isTaken, quizAssessment }) {
   const [open, setOpen] = useState(false);
 
   console.log(quizSet.quizIds);
@@ -24,7 +24,21 @@ export function Quiz({ courseId, quizSet, isTaken }) {
       }),
     };
   });
-  console.log({ quizzes });
+  //   console.log({ quizzes });
+
+  let quizAssessmentMark = 0;
+  if (isTaken) {
+    quizAssessmentMark = quizAssessment.assessments.reduce(
+      (total, assessment) => {
+        const correctSelectedOptions = assessment.options.filter(
+          (option) => option.isCorrect && option.isSelected
+        );
+        return total + correctSelectedOptions.length * 5;
+      },
+      0
+    );
+  }
+
   return (
     <>
       <div className="max-w-[270px] bg-white border border-border rounded-md dark:bg-gray-800 dark:border-gray-700 overflow-hidden">
@@ -40,6 +54,14 @@ export function Quiz({ courseId, quizSet, isTaken }) {
               {quizSet.quizIds ? quizSet.quizIds.length * 5 : 0}
             </Badge>
           </div>
+          {isTaken && (
+            <div className="flex items-center justify-between gap-6 text-sm mb-2 font-medium text-gray-700">
+              <span>Your Mark</span>
+              <Badge className="bg-success/20 text-primary hover:bg-success/20">
+                {quizAssessmentMark}
+              </Badge>
+            </div>
+          )}
           <p className="mb-4 font-normal text-gray-500 dark:text-gray-400 text-sm">
             Taking the quiz is optional but it is highly recommended.
           </p>
@@ -72,6 +94,7 @@ export function Quiz({ courseId, quizSet, isTaken }) {
         open={open}
         setOpen={setOpen}
         isTaken={isTaken}
+        quizAssessment={quizAssessment}
       />
     </>
   );
