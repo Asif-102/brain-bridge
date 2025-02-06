@@ -10,6 +10,8 @@ import {
 } from "@/lib/convertData";
 import { groupBy } from "@/lib/customFunction";
 import { Lesson } from "@/model/lesson-model";
+import { Quizset } from "@/model/quizset-model";
+import { Quiz } from "@/model/quizzes-model";
 import dbConnect from "@/service/mongo";
 import { getEnrollmentsForCourse } from "./enrollments";
 import { getTestimonialsForCourse } from "./testimonials";
@@ -75,6 +77,14 @@ export async function getCourseDetails(id) {
       populate: {
         path: "lessonIds",
         model: Lesson,
+      },
+    })
+    .populate({
+      path: "quizSet",
+      model: Quizset,
+      populate: {
+        path: "quizIds",
+        model: Quiz,
       },
     })
     .lean();

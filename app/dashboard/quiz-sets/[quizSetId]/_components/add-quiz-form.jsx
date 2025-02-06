@@ -152,7 +152,8 @@ export const AddQuizForm = ({ quizSetId }) => {
 
       const correctMarked = correctness.filter((c) => c);
 
-      const isOneCorrecrMarked = correctMarked.length >= 1;
+      // const isOneCorrecrMarked = correctMarked.length >= 1; //if we want to implement multiple correct options
+      const isOneCorrecrMarked = correctMarked.length === 1;
 
       if (isOneCorrecrMarked) {
         // Call server action
