@@ -35,7 +35,9 @@ function VideoDescription({ description }) {
           </TabsTrigger>
         </TabsList>
         <div className="pt-3">
-          <TabsContent value="details">{description}</TabsContent>
+          <TabsContent value="details">
+            <div dangerouslySetInnerHTML={{ __html: description }} />
+          </TabsContent>
         </div>
       </Tabs>
     </div>
