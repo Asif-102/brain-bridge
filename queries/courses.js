@@ -128,10 +128,13 @@ export async function getCourseDetailsByInstructor(instructorId, expand) {
   );
 
   const totalTestimonials = testimonials.flat();
-  const avgRating =
+  let avgRating =
     totalTestimonials.reduce(function (acc, obj) {
       return acc + obj.rating;
     }, 0) / totalTestimonials.length;
+
+  // If avgRating is NaN, assign 0
+  avgRating = isNaN(avgRating) ? 0 : avgRating;
 
   //console.log("testimonials", totalTestimonials, avgRating);
   if (expand) {
