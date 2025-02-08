@@ -16,40 +16,46 @@ import dbConnect from "@/service/mongo";
 import { getEnrollmentsForCourse } from "./enrollments";
 import { getTestimonialsForCourse } from "./testimonials";
 
-export async function getCourseList(filter = {}) {
-  await dbConnect();
+import { unstable_cache } from "next/cache";
 
-  filter["active"] = true;
+export const getCourseList = unstable_cache(
+  async (filter = {}) => {
+    await dbConnect();
 
-  const courses = await Course.find(filter)
-    .select([
-      "title",
-      "subtitle",
-      "thumbnail",
-      "modules",
-      "price",
-      "category",
-      "instructor",
-    ])
-    .populate({
-      path: "category",
-      model: Category,
-    })
-    .populate({
-      path: "instructor",
-      model: User,
-    })
-    .populate({
-      path: "testimonials",
-      model: Testimonial,
-    })
-    .populate({
-      path: "modules",
-      model: Module,
-    })
-    .lean();
-  return replaceMongoIdInArray(courses);
-}
+    filter["active"] = true;
+
+    const courses = await Course.find(filter)
+      .select([
+        "title",
+        "subtitle",
+        "thumbnail",
+        "modules",
+        "price",
+        "category",
+        "instructor",
+      ])
+      .populate({
+        path: "category",
+        model: Category,
+      })
+      .populate({
+        path: "instructor",
+        model: User,
+      })
+      .populate({
+        path: "testimonials",
+        model: Testimonial,
+      })
+      .populate({
+        path: "modules",
+        model: Module,
+      })
+      .lean();
+    return replaceMongoIdInArray(courses);
+  },
+  ["courses"],
+  { tags: ["courses"] }
+);
 
 export async function getCourseDetails(id) {
   await dbConnect();

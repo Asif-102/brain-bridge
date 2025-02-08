@@ -6,12 +6,16 @@ import { create } from "@/queries/courses";
 import dbConnect from "@/service/mongo";
 import { del } from "@vercel/blob";
 import mongoose from "mongoose";
+import { revalidateTag } from "next/cache";
 
 export async function createCourse(data) {
   try {
     const loggedinUser = await getLoggedInUser();
     data["instructor"] = loggedinUser?.id;
     const course = await create(data);
+
+    revalidateTag("courses");
+
     return course;
   } catch (err) {
     throw new Error(err);
@@ -38,6 +42,9 @@ export async function changeCoursePublishState(courseId) {
       { active: !course.active },
       { lean: true }
     );
+
+    revalidateTag("courses");
+
     return res.active;
   } catch (err) {
     throw new Error(err);
@@ -57,6 +64,8 @@ export async function deleteCourse(courseId) {
       try {
         await del(course.thumbnail);
         console.log("Deleted old thumbnail:", course.thumbnail);
+
+        revalidateTag("courses");
       } catch (error) {
         console.error("Error deleting old thumbnail:", error);
       }
