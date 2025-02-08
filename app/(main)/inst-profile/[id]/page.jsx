@@ -31,7 +31,7 @@ const InstructorProfile = async ({ params: { id } }) => {
             <div className="mb-6">
               <div className="w-36 h-36 rounded-full  mb-5 mx-auto overflow-hidden">
                 <Image
-                  src={instructor?.profilePicture}
+                  src={instructor?.profilePicture ?? "https://i.pravatar.cc"}
                   alt={fullName}
                   className="w-full h-full object-cover rounded"
                   width={500}
