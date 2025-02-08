@@ -1,5 +1,5 @@
 "use client";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent } from "@/components/ui/tabs";
 const quizes = [
   {
     id: "quiz-1",
@@ -29,11 +29,11 @@ function VideoDescription({ description }) {
   return (
     <div className="mt-4">
       <Tabs defaultValue="details">
-        <TabsList className="bg-transparent p-0 border-b border-border w-full justify-start h-auto rounded-none">
+        {/* <TabsList className="bg-transparent p-0 border-b border-border w-full justify-start h-auto rounded-none">
           <TabsTrigger className="capitalize" value="quiz">
             Quiz
           </TabsTrigger>
-        </TabsList>
+        </TabsList> */}
         <div className="pt-3">
           <TabsContent value="details">
             <div dangerouslySetInnerHTML={{ __html: description }} />
